@@ -14,3 +14,5 @@ def close_chrome():
 
 time.sleep(2)
 close_chrome()
+print('[+] Chrome was closed')
+
