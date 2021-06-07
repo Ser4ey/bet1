@@ -812,7 +812,7 @@ class ChromeCloudFlareProtection(FireFoxDriverWithProxy):
         options.add_argument(f"user-data-dir={users_data_dir}")
         options.add_argument(f'--profile-directory={profile_directory}')
 
-        driver = webdriver.Chrome(chrome_options=options, desired_capabilities=chrome_capabilities, executable_path=r'C:\Users\Пользователь 9\PycharmProjects\stavki_bet365\chromedriver.exe')
+        driver = webdriver.Chrome(chrome_options=options, desired_capabilities=chrome_capabilities, executable_path=r'chromedriver.exe')
 
         # driver.get('https://2ip.ru')
         time.sleep(3)
@@ -944,7 +944,7 @@ class ChromeCloudFlareProtection(FireFoxDriverWithProxy):
         options.add_argument(f"user-data-dir={users_data_dir}")
         options.add_argument(f'--profile-directory={profile_directory}')
 
-        driver = webdriver.Chrome(chrome_options=options, desired_capabilities=chrome_capabilities, executable_path=r'C:\Users\Пользователь 9\PycharmProjects\stavki_bet365\chromedriver.exe')
+        driver = webdriver.Chrome(chrome_options=options, desired_capabilities=chrome_capabilities, executable_path=r'chromedriver.exe')
 
         time.sleep(3)
 
