@@ -1,53 +1,58 @@
-import time
-import pickle
-import pyautogui
-from selenium import webdriver
-from chromdriver_class import ChromeCloudFlareProtection
+bet_type = 'Команда 2 Тб(534)'
+reverse_bet = 'Unknown bet'
+
+if bet_type == 'П1' or bet_type == '1':
+    #  1 -> X2
+    reverse_bet = 'X2'
+
+elif bet_type == '2' or bet_type == 'П2':
+    #  2 -> 1X
+    reverse_bet = '1X'
+
+elif bet_type == 'X' or bet_type == 'Х':
+    #  X -> 12
+    reverse_bet = '12'
+
+elif bet_type == '1X' or bet_type == '1Х':
+    #  1X -> 2
+    reverse_bet = '2'
+
+elif bet_type == 'Х2' or bet_type == 'X2':
+    #  X2 -> 1
+    reverse_bet = '1'
+
+elif bet_type == '12' or bet_type == '21':
+    #  12 -> X
+    reverse_bet = 'X'
+
+elif bet_type[:13] == 'Гола не будет':
+    #  Гола не будет(3) -> Тм(2.5)
+    reverse_bet = bet_type.split('(')[-1]
+    reverse_bet = reverse_bet.strip(')')
+    reverse_bet = int(reverse_bet) + 0.5
+    reverse_bet = str(reverse_bet)
+    reverse_bet = f'Тм({reverse_bet})'
+
+elif bet_type == 'Чет':
+    #  Чет -> Нечет
+    reverse_bet = 'Нечет'
+
+elif bet_type == 'Нечет':
+    #  Чет -> Нечет
+    reverse_bet = 'Чет'
+
+else:
+    if 'Команда' in bet_type:
+        if 'Тб' in bet_type:
+            reverse_bet = bet_type.replace('Тб', 'Тм')
+        elif 'Тм' in bet_type:
+            reverse_bet = bet_type.replace('Тм', 'Тб')
+
+    elif 'Тб' in bet_type:
+        reverse_bet = bet_type.replace('Тб', 'Тм')
+
+    elif 'Тм' in bet_type:
+        reverse_bet = bet_type.replace('Тм', 'Тб')
 
 
-def close_chrome():
-    pyautogui.PAUSE = 1.5
-    pyautogui.FAILSAFE = True
-
-    print(pyautogui.size())
-    time.sleep(5)
-    print(pyautogui.position())
-
-    pyautogui.moveTo(420, 1062, duration=1)
-    pyautogui.click()
-
-
-url1 = 'https://bet365.com'
-url2 = 'https://2ip.ru'
-url3 = 'https://positivebet.com'
-
-driver = ChromeCloudFlareProtection()
-
-'''driver.driver.get(url1)
-time.sleep(2)
-print(1)
-print(driver.driver.current_url)
-print(2)'''
-
-close_chrome()
-
-'''
-def get_url(url):
-    # url += '/ru/bets/go/e/121132917/b/560/elid/4664871/k/a8c3d249cb92d6c4'
-    url += '/ru/bets/go/e/121132917/b/42/elid/4664871/k/677e3d8a1d575308'
-    driver.driver.get(url)
-
-    for i in range(1000):
-        url1 = driver.driver.current_url
-        print(url1, i)
-
-
-
-
-get_url(url3)
-
-
-'''
-
-
-
+print(reverse_bet)
