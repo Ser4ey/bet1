@@ -148,7 +148,7 @@ class FireFoxDriver:
 
 
 class FireFoxDriverWithProxy:
-    def __init__(self, path_to_geckodriver, user_agent, proxy, proxy_login_and_password, type_of_account, final_balance, account_code_name):
+    def __init__(self, path_to_geckodriver, user_agent, proxy, proxy_login_and_password, type_of_account, final_balance, account_code_name, is_reversed):
         firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
         firefox_capabilities['marionette'] = True
         print(proxy)
@@ -175,6 +175,7 @@ class FireFoxDriverWithProxy:
         self.final_balance = final_balance
         self.account_code_name = account_code_name
         self.current_account_balance = -1
+        self.is_reversed = is_reversed
 
         if proxy_login_and_password == 'no_login_for_proxy':
             print('Вы используете прокси с привязкой к ip!')
@@ -502,7 +503,6 @@ class FireFoxDriverWithProxy:
                 return
 
             print('Неизвестный тип ставки')
-
 
     def make_cyber_football_bet_P1_P2_X(self, url, bet_type, coef, bet_value):
         print(f'Проставляем ставку(Победа|Ничья|Поражение) url: {url}; bet_type: {bet_type}; coef: {coef}')
