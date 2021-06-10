@@ -301,7 +301,7 @@ class FireFoxDriverWithProxy:
                 bet365balance = float(bet365balance)
                 print(f'Баланс аккаунта {bet365balance}')
             except:
-                bet365balance = 500
+                bet365balance = 10
                 print(f'Баланс аккаунта {bet365balance}')
             value = (bet365balance/100)*value
 
@@ -444,6 +444,14 @@ class FireFoxDriverWithProxy:
         return reverse_bet
 
     def make_cyber_football_bet(self, url, bet_type, coef, bet_value):
+        # изменение ставки на другое плечо (если нужно)
+        if self.is_reversed == 'reversed':
+            print('Ставка на противоположное плечо')
+            print(bet_type, '-> ', end='')
+            bet_type = self.reverse_cyber_football_bet(bet_type)
+            print(bet_type)
+            coef = 0
+
         #изменение доменной зоны ссылки
         if self.type_of_account == '.com':
             url = url.replace('.ru', '.com')
