@@ -200,7 +200,6 @@ class FireFoxDriverWithProxy:
         self.is_login_in_positivebet = True
 
 
-
     def go_to_bet_from_positivebet_an_return_url(self, element):
         current_page = self.driver.current_window_handle
         try:
@@ -336,7 +335,6 @@ class FireFoxDriverWithProxy:
             self.driver.get('https://www.bet365.ru/#/HO/')
         time.sleep(2)
 
-
     def reanimaite_bet365com(self):
         # попытка закрыть купон
         try:
@@ -372,7 +370,6 @@ class FireFoxDriverWithProxy:
                 except:
                     pass
 
-
     def close_cupon(self):
         '''Попытка Закрытие купонов(а_ если он есть'''
         try:
@@ -385,6 +382,65 @@ class FireFoxDriverWithProxy:
             time.sleep(4)
         except Exception as er:
             print('нет купонов', er)
+
+    def reverse_cyber_football_bet(self, bet_type):
+        '''Изменение ставки на противоположное плечо (1 -> 2Х) (Тб 1.5 -> Тм 1.5)'''
+        reverse_bet = 'Unknown bet'
+
+        if bet_type == 'П1' or bet_type == '1':
+            #  1 -> X2
+            reverse_bet = 'X2'
+
+        elif bet_type == '2' or bet_type == 'П2':
+            #  2 -> 1X
+            reverse_bet = '1X'
+
+        elif bet_type == 'X' or bet_type == 'Х':
+            #  X -> 12
+            reverse_bet = '12'
+
+        elif bet_type == '1X' or bet_type == '1Х':
+            #  1X -> 2
+            reverse_bet = '2'
+
+        elif bet_type == 'Х2' or bet_type == 'X2':
+            #  X2 -> 1
+            reverse_bet = '1'
+
+        elif bet_type == '12' or bet_type == '21':
+            #  12 -> X
+            reverse_bet = 'X'
+
+        elif bet_type[:13] == 'Гола не будет':
+            #  Гола не будет(3) -> Тм(2.5)
+            reverse_bet = bet_type.split('(')[-1]
+            reverse_bet = reverse_bet.strip(')')
+            reverse_bet = int(reverse_bet) + 0.5
+            reverse_bet = str(reverse_bet)
+            reverse_bet = f'Тм({reverse_bet})'
+
+        elif bet_type == 'Чет':
+            #  Чет -> Нечет
+            reverse_bet = 'Нечет'
+
+        elif bet_type == 'Нечет':
+            #  Чет -> Нечет
+            reverse_bet = 'Чет'
+
+        else:
+            if 'Команда' in bet_type:
+                if 'Тб' in bet_type:
+                    reverse_bet = bet_type.replace('Тб', 'Тм')
+                elif 'Тм' in bet_type:
+                    reverse_bet = bet_type.replace('Тм', 'Тб')
+
+            elif 'Тб' in bet_type:
+                reverse_bet = bet_type.replace('Тб', 'Тм')
+
+            elif 'Тм' in bet_type:
+                reverse_bet = bet_type.replace('Тм', 'Тб')
+
+        return reverse_bet
 
     def make_cyber_football_bet(self, url, bet_type, coef, bet_value):
         #изменение доменной зоны ссылки
@@ -426,7 +482,6 @@ class FireFoxDriverWithProxy:
                         print('-')
                 except:
                     pass
-
 
 
         if bet_type == 'П1' or bet_type == 'П2' or bet_type == '1' or bet_type == '2' or bet_type == 'X' or bet_type == 'Х':
@@ -779,8 +834,6 @@ class FireFoxDriverWithProxy:
             print(f'Не удалось получть баланс аккаунта {self.bet365_account_name} для отправки уведомлений', er)
 
             return 0
-
-
 
 
     def close_session(self):
