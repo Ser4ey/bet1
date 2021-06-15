@@ -877,6 +877,8 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
 
         self.driver = driver
         self.driver.get('https://2ip.ru/')
+        time.sleep(3)
+        self.driver.refresh()
         self.type_of_account = type_of_account
         self.final_balance = final_balance
         self.account_code_name = account_code_name
