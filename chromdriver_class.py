@@ -353,7 +353,7 @@ class FireFoxDriverWithProxy:
         except:
             pass
 
-        #Попытка реанимировать сайт .com версии (пропадает соединение)
+        #Попытка реанимировать сайт .com версии (пропадает соединение) (VPN!!!)
         if self.type_of_account == '.com':
             for i in range(10):
                 try:
@@ -475,7 +475,7 @@ class FireFoxDriverWithProxy:
         self.close_cupon()
 
         #Попытка реанимировать сайт .com версии (пропадает соединение)
-        if self.type_of_account == '.com':
+        if self.type_of_account == '.com':  # (VPN!!!
             while True:
                 try:
                     try:

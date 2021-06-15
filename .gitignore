@@ -1,5 +1,6 @@
 data.py
 data_of_bets.json
+geckodriver.log
 
 /venv/
 /.idea/
