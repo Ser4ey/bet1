@@ -822,7 +822,7 @@ class FireFoxDriverWithProxy:
         if bet_type == 'П1' or bet_type == 'П2':
             self.make_table_tennis_bet_P1_P2(url, bet_type, coef, bet_value)
         else:
-            print('Неизвестный тип ставки')
+            print('Неизвестный тип ставки (1)', bet_type)
 
     def make_table_tennis_bet_P1_P2(self, url, bet_type, coef, bet_value):
         print(f'Проставляем ставку П1П2(table tennis): {url}; bet_type: {bet_type}; coef: {coef}')
