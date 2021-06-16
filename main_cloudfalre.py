@@ -14,8 +14,10 @@ def change_domenzone_in_url(url1, pref, post):
 
 def make_bet_multipotok(All_elements_array):
     print('Ставим ставку на одном из аккаунтов')
-    driver, url, bet, coef, bet_value = All_elements_array
-    driver.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=bet_value)
+    driver, url, bet, coef, bet_value, sport_type = All_elements_array
+    # driver.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=bet_value)
+    driver.start_make_bet_and_choose_sport_type(sport_type=sport_type, bet_type=bet,
+                                                coef=coef, bet_value=bet_value)
 
 
 def make_notify_about_final_balance_telegram(driver, bot_token, user_id_list):
@@ -73,7 +75,6 @@ for i in range(len(data.Accounts)):
 graphic_bet_telegram = Grafic_Bet365_Telegram(data.graphic_account_code, List_of_bet_account[data.graphic_account])
 
 
-
 driver1.driver.get('https://positivebet.com/ru/bets/index')
 time.sleep(5)
 driver1.driver.find_element_by_id('btnAutoRefresh').click()
@@ -104,6 +105,7 @@ while True:
             try:
 
                 Info = Bets[i].find_elements_by_tag_name('td')
+                sport_type = Info[0].find_elements_by_tag_name('a')[2].find_element_by_tag_name('img').get_attribute('alt')
                 profit = Info[1].text
                 bk = Info[2].find_elements_by_tag_name('a')
                 bk = [i.text for i in bk]
@@ -159,7 +161,7 @@ while True:
                         else:
                             url1 = change_domenzone_in_url(url, '.ru', '.com')
 
-                        account_arr = [List_of_bet_account[i], url1, bet, coef, data.Accounts[i][5]]
+                        account_arr = [List_of_bet_account[i], url1, bet, coef, data.Accounts[i][5], sport_type]
                         A.append(account_arr)
 
                     with Pool(processes=len(data.Accounts)) as p:
