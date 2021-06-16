@@ -864,8 +864,8 @@ class FireFoxDriverWithProxy:
             print('Не удалось найти ставку на победу (теннис)')
             return
 
-        bet1 = columns_[1].find_elements_by_tag_name('div')
-        bet2 = columns_[2].find_elements_by_tag_name('div')
+        bet1 = columns_[1].find_elements_by_tag_name('div')[1]
+        bet2 = columns_[2].find_elements_by_tag_name('div')[1]
 
         if bet_type == 'П1':
             bet1.click()
