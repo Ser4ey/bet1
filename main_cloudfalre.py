@@ -16,7 +16,7 @@ def make_bet_multipotok(All_elements_array):
     print('Ставим ставку на одном из аккаунтов')
     driver, url, bet, coef, bet_value, sport_type = All_elements_array
     # driver.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=bet_value)
-    driver.start_make_bet_and_choose_sport_type(sport_type=sport_type, bet_type=bet,
+    driver.start_make_bet_and_choose_sport_type(sport_type=sport_type, url=url, bet_type=bet,
                                                 coef=coef, bet_value=bet_value)
 
 

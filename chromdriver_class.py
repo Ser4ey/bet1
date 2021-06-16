@@ -274,10 +274,56 @@ class FireFoxDriverWithProxy:
             # Настольный теннис
             # Киберфутбол
         '''
+
+        # изменение доменной зоны ссылки
+        if self.type_of_account == '.com':
+            url = url.replace('.ru', '.com')
+        else:
+            url = url.replace('.com', '.ru')
+
+        # Попытка закрыть предыдушее окно ставки, если ставка не была проставлена.
+        try:
+            self.driver.find_element_by_class_name('qbs-NormalBetItem_Indicator ').click()
+        except:
+            pass
+
+        # Попытка закрыть окно неактивности на .com версии
+        try:
+            self.driver.find_element_by_class_name('alm-ActivityLimitAlert_Button ').click()
+        except:
+            pass
+
+        # Попытка закрыть купоны ставок(когда скапливается много ставок в купоне)
+        self.close_cupon()
+
+        #Попытка реанимировать сайт .com версии (пропадает соединение)
+        if self.type_of_account == '.com':  # (VPN!!!
+            while True:
+                try:
+                    try:
+                        self.driver.get('https://www.bet365.com/')
+                        time.sleep(4)
+                        bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance ').text
+                        print(f'Аккаунт {self.bet365_account_name} - работает')
+                        break
+                    except:
+                        print(f'Аккаунт {self.bet365_account_name} - реанимируется')
+                        self.driver.get('https://www.bet365.com/')
+                        time.sleep(1)
+                        print('-')
+                except:
+                    pass
+
+
         if sport_type == 'Настольный теннис':
-           pass
+            self.make_table_tennis_bet(url, bet_type, coef, bet_value)
+            print('Настольный теннис')
         elif sport_type == 'Киберфутбол':
             self.make_cyber_football_bet(url, bet_type, coef, bet_value)
+            print('Киберфутбол')
+        else:
+            print('Неизвестный тип спорта')
+
 
     def make_a_bet(self, value, coef, element):
         '''Ставит ставку в открывшемся окошечке
@@ -461,46 +507,6 @@ class FireFoxDriverWithProxy:
             bet_type = self.reverse_cyber_football_bet(bet_type)
             print(bet_type)
             coef = 0
-
-        #изменение доменной зоны ссылки
-        if self.type_of_account == '.com':
-            url = url.replace('.ru', '.com')
-        else:
-            url = url.replace('.com', '.ru')
-
-
-        #Попытка закрыть предыдушее окно ставки, если ставка не была проставлена.
-        try:
-            self.driver.find_element_by_class_name('qbs-NormalBetItem_Indicator ').click()
-        except:
-            pass
-
-        #Попытка закрыть окно неактивности на .com версии
-        try:
-            self.driver.find_element_by_class_name('alm-ActivityLimitAlert_Button ').click()
-        except:
-            pass
-
-        #Попытка закрыть купоны ставок(когда скапливается много ставок в купоне)
-        self.close_cupon()
-
-        #Попытка реанимировать сайт .com версии (пропадает соединение)
-        if self.type_of_account == '.com':  # (VPN!!!
-            while True:
-                try:
-                    try:
-                        self.driver.get('https://www.bet365.com/')
-                        time.sleep(4)
-                        bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance ').text
-                        print(f'Аккаунт {self.bet365_account_name} - работает')
-                        break
-                    except:
-                        print(f'Аккаунт {self.bet365_account_name} - реанимируется')
-                        self.driver.get('https://www.bet365.com/')
-                        time.sleep(1)
-                        print('-')
-                except:
-                    pass
 
 
         if bet_type == 'П1' or bet_type == 'П2' or bet_type == '1' or bet_type == '2' or bet_type == 'X' or bet_type == 'Х':
@@ -828,9 +834,69 @@ class FireFoxDriverWithProxy:
             self.make_a_bet(bet_value, coef, bets[0])
 
 
-    def make_table_tennis_bet(self):
+    def make_table_tennis_bet(self, url, bet_type, coef, bet_value):
         '''Ставка на настольный теннис'''
-        pass
+
+        if bet_type == 'П1' or bet_type == 'П2':
+            self.make_cyber_football_bet_P1_P2_X(url, bet_type, coef, bet_value)
+        else:
+            print('Неизвестный тип ставки')
+
+    def make_table_tennis_bet_P1_P2(self, url, bet_type, coef, bet_value):
+        print(f'Проставляем ставку П1П2(table tennis): {url}; bet_type: {bet_type}; coef: {coef}')
+        self.driver.get(url)
+        time.sleep(3)
+
+        list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+        line = 0
+        for i in range(len(list_of_bets)):
+            bet_element = list_of_bets[i]
+            text1 = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+            if text1 == 'ЛИНИИ МАТЧА':
+                line = i
+                break
+
+        bet_element = list_of_bets[line]
+        text = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+        if text != 'ЛИНИИ МАТЧА':
+            print('Ставка П1П2 настольный теннис')
+            return
+
+        try:
+            bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+        except:
+            print('Разворачиваем ставку')
+            bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').click()
+            time.sleep(0.5)
+            list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+            bet_element = list_of_bets[line]
+
+        elements_with_bets = bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+        columns_ = elements_with_bets.find_element_by_class_name('gl-MarketGroupContainer ')
+        columns_ = columns_.find_elements_by_class_name('gl-Market_General-columnheader ')
+
+        bet_text = columns_[0].find_elements_by_tag_name('div')[1].text
+        if bet_text != 'Победитель':
+            print('Не удалось найти ставку на победу (теннис)')
+            return
+
+        bet1 = columns_[1].find_elements_by_tag_name('div')
+        bet2 = columns_[2].find_elements_by_tag_name('div')
+
+        if bet_type == 'П1':
+            bet1.click()
+            time.sleep(2)
+            self.make_a_bet(bet_value, coef, bet1)
+        else:
+            bet2.click()
+            time.sleep(2)
+            self.make_a_bet(bet_value, coef, bet2)
+
+
+
+
 
     def get_bet365_balance(self):
         url = 'https://www.bet365.ru/'
