@@ -296,24 +296,6 @@ class FireFoxDriverWithProxy:
         # Попытка закрыть купоны ставок(когда скапливается много ставок в купоне)
         self.close_cupon()
 
-        #Попытка реанимировать сайт .com версии (пропадает соединение)
-        if self.type_of_account == '.com':  # (VPN!!!
-            while True:
-                try:
-                    try:
-                        self.driver.get('https://www.bet365.com/')
-                        time.sleep(4)
-                        bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance ').text
-                        print(f'Аккаунт {self.bet365_account_name} - работает')
-                        break
-                    except:
-                        print(f'Аккаунт {self.bet365_account_name} - реанимируется')
-                        self.driver.get('https://www.bet365.com/')
-                        time.sleep(1)
-                        print('-')
-                except:
-                    pass
-
 
         if sport_type == 'Настольный теннис':
             self.make_table_tennis_bet(url, bet_type, coef, bet_value)
