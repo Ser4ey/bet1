@@ -200,7 +200,6 @@ class FireFoxDriverWithProxy:
         time.sleep(3)
         self.is_login_in_positivebet = True
 
-
     def go_to_bet_from_positivebet_an_return_url(self, element):
         current_page = self.driver.current_window_handle
         try:
@@ -268,6 +267,17 @@ class FireFoxDriverWithProxy:
         time.sleep(12)
         print('Вы успешно вошли в аккаунт bet365.ru')
         self.bet365_account_name = login
+
+    def choose_sport_type(self, sport_type, url, bet_type, coef, bet_value):
+        '''
+        Запускает алгоритм проставления ставки нужного ВИДА СПОРТА
+            # Настольный теннис
+            # Киберфутбол
+        '''
+        if sport_type == 'Настольный теннис':
+           pass
+        elif sport_type == 'Киберфутбол':
+            self.make_cyber_football_bet(url, bet_type, coef, bet_value)
 
     def make_a_bet(self, value, coef, element):
         '''Ставит ставку в открывшемся окошечке
@@ -772,7 +782,6 @@ class FireFoxDriverWithProxy:
         time.sleep(2)
         self.make_a_bet(bet_value, coef, bets[my_bet_number])
 
-
     def make_cyber_football_bet_odd_or_even(self, url, bet_type, coef, bet_value):
         print(f'Проставляем ставку ЧетНечет: {url}; bet_type: {bet_type}; coef: {coef}')
         self.driver.get(url)
@@ -842,7 +851,6 @@ class FireFoxDriverWithProxy:
             print(f'Не удалось получть баланс аккаунта {self.bet365_account_name} для отправки уведомлений', er)
 
             return 0
-
 
     def close_session(self):
         self.driver.quit()
