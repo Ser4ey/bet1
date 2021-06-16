@@ -52,7 +52,10 @@ driver1 = ChromeCloudFlareProtection()
 driver1.driver.get('https://positivebet.com/ru/bets/index')
 
 
-
+time.sleep(5)
+driver1.driver.find_element_by_id('btnAutoRefresh').click()
+print('Автообновление!')
+time.sleep(1)
 
 Set_of_all_Bets = set()
 reboot_counter = 0
@@ -78,10 +81,13 @@ while True:
             flag = False
             try:
 
-                Info = Bets[i].find_elements_by_tag_name('td')\
+                Info = Bets[i].find_elements_by_tag_name('td')
 
+
+                # Настольный теннис
+                # Киберфутбол
                 # new
-                sport_type = Info[0].find_elements_by_tag_name('a')[2].get_attribute('alt')
+                sport_type = Info[0].find_elements_by_tag_name('a')[2].find_element_by_tag_name('img').get_attribute('alt')
                 print(sport_type, ':;tip sporta')
                 # new
 
@@ -133,10 +139,8 @@ while True:
                     print('-'*100)
 
                     A = []
-
-
                     # driver2.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=data.general_value_of_bet)
-                    time.sleep(15)
+                    time.sleep(1)
                 except Exception as er:
                     print('При проставлении став0к произошла ошибка!')
                     print(er)

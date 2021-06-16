@@ -70,8 +70,8 @@ class FireFoxDriverWithVPN:
             binary = r'C:\Program Files\Mozilla Firefox\firefox.exe'
             options.binary = binary
 
-            user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
-            options.set_preference("general.useragent.override", user_agent)
+            #user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
+            #options.set_preference("general.useragent.override", user_agent)
             #
             self.driver = webdriver.Firefox(capabilities=firefox_capabilities, firefox_profile=fp,
                             firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe',
