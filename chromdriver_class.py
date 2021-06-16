@@ -268,7 +268,7 @@ class FireFoxDriverWithProxy:
         print('Вы успешно вошли в аккаунт bet365.ru')
         self.bet365_account_name = login
 
-    def choose_sport_type(self, sport_type, url, bet_type, coef, bet_value):
+    def start_make_bet_and_choose_sport_type(self, sport_type, url, bet_type, coef, bet_value):
         '''
         Запускает алгоритм проставления ставки нужного ВИДА СПОРТА
             # Настольный теннис
@@ -454,7 +454,7 @@ class FireFoxDriverWithProxy:
         return reverse_bet
 
     def make_cyber_football_bet(self, url, bet_type, coef, bet_value):
-        # изменение ставки на другое плечо (если нужно)
+        # изменение ставки на другое плечо (если нужно) for cyber footboll
         if self.is_reversed == 'reversed':
             print('Ставка на противоположное плечо')
             print(bet_type, '-> ', end='')
@@ -828,7 +828,9 @@ class FireFoxDriverWithProxy:
             self.make_a_bet(bet_value, coef, bets[0])
 
 
-
+    def make_table_tennis_bet(self):
+        '''Ставка на настольный теннис'''
+        pass
 
     def get_bet365_balance(self):
         url = 'https://www.bet365.ru/'
