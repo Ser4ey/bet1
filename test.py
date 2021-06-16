@@ -59,7 +59,7 @@ reboot_counter = 0
 graphic_bet_telegram_counter = 0
 error_flag = False
 
-exit()
+
 while True:
     for j1 in range(180):
         time.sleep(1)
@@ -78,7 +78,13 @@ while True:
             flag = False
             try:
 
-                Info = Bets[i].find_elements_by_tag_name('td')
+                Info = Bets[i].find_elements_by_tag_name('td')\
+
+                # new
+                sport_type = Info[0].find_elements_by_tag_name('a')[2].get_attribute('alt')
+                print(sport_type, ':;tip sporta')
+                # new
+
                 profit = Info[1].text
                 bk = Info[2].find_elements_by_tag_name('a')
                 bk = [i.text for i in bk]
