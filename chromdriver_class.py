@@ -298,11 +298,11 @@ class FireFoxDriverWithProxy:
 
 
         if sport_type == 'Настольный теннис':
+            print('Делаем ставку Настольный теннис')
             self.make_table_tennis_bet(url, bet_type, coef, bet_value)
-            print('Настольный теннис')
         elif sport_type == 'Киберфутбол':
+            print('Делаем ставку Киберфутбол')
             self.make_cyber_football_bet(url, bet_type, coef, bet_value)
-            print('Киберфутбол')
         else:
             print('Неизвестный тип спорта')
 
@@ -820,7 +820,7 @@ class FireFoxDriverWithProxy:
         '''Ставка на настольный теннис'''
 
         if bet_type == 'П1' or bet_type == 'П2':
-            self.make_cyber_football_bet_P1_P2_X(url, bet_type, coef, bet_value)
+            self.make_table_tennis_bet_P1_P2(url, bet_type, coef, bet_value)
         else:
             print('Неизвестный тип ставки')
 
