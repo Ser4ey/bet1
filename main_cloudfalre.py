@@ -149,7 +149,7 @@ while True:
                     continue
 
 
-                print(profit, bk, line, event, event_url, bet, coef, url)
+                print(profit, bk, line, event, event_url, bet, coef, url, sport_type)
                 try:
                     print('-'*100)
 
