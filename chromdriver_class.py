@@ -900,7 +900,7 @@ class FireFoxDriverWithProxy:
         text = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
 
         if text != 'ЛИНИИ МАТЧА':
-            print('Ставка П1П2 настольный теннис')
+            print('Ставка Гандикап на матч?')
             return
 
         try:
