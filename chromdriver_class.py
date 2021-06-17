@@ -957,8 +957,12 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
         while bad_ip:
             answer_ = self.check_ip()
             if answer_:
-                print('[+] Stop scerch for new ip')
-                break
+                # повторная проверка
+                time.sleep(3)
+                answer2 = self.check_ip()
+                if answer2:
+                    print('[+] Stop scerch for new ip')
+                    break
 
             self.driver.quit()
             time.sleep(2)
