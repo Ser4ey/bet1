@@ -820,7 +820,11 @@ class FireFoxDriverWithProxy:
         '''Ставка на настольный теннис'''
 
         if bet_type == 'П1' or bet_type == 'П2':
+            # П1 П2
             self.make_table_tennis_bet_P1_P2(url, bet_type, coef, bet_value)
+        elif ('Ф1' in bet_type or 'Ф2' in bet_type) and len(bet_type) < 10:
+            # Ф1(-2.5)  Ф2(1.5)
+            self.make_table_tennis_bet_F1_F2_gandikap_of_match(url, bet_type, coef, bet_value)
         else:
             print('Неизвестный тип ставки (1)', bet_type)
 
@@ -877,7 +881,88 @@ class FireFoxDriverWithProxy:
             self.make_a_bet(bet_value, coef, bet2)
 
 
+    def make_table_tennis_bet_F1_F2_gandikap_of_match(self, url, bet_type, coef, bet_value):
+        print(f'Проставляем ставку Ф1(-2.5)(Гандикап) (table tennis): {url}; bet_type: {bet_type}; coef: {coef}')
+        self.driver.get(url)
+        time.sleep(3)
 
+        list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+        line = 0
+        for i in range(len(list_of_bets)):
+            bet_element = list_of_bets[i]
+            text1 = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+            if text1 == 'ЛИНИИ МАТЧА':
+                line = i
+                break
+
+        bet_element = list_of_bets[line]
+        text = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+        if text != 'ЛИНИИ МАТЧА':
+            print('Ставка П1П2 настольный теннис')
+            return
+
+        try:
+            bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+        except:
+            print('Разворачиваем ставку')
+            bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').click()
+            time.sleep(0.5)
+            list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+            bet_element = list_of_bets[line]
+
+        elements_with_bets = bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+        columns_ = elements_with_bets.find_element_by_class_name('gl-MarketGroupContainer ')
+        columns_ = columns_.find_elements_by_class_name('gl-Market_General-columnheader ')
+
+        line_ = -1
+        # Гандикап (Игры)
+        counter_ = 0
+        for bet_text1 in columns_[0].find_elements_by_tag_name('div'):
+            try:
+                bet_text = bet_text1.text
+                if bet_text == 'Гандикап (Игры)':
+                    line_ =counter_
+                    break
+            except:
+                pass
+            counter_ += 1
+        # bet_text = columns_[0].find_elements_by_tag_name('div')[1].text
+
+        if line_ == -1:
+            print('Не удалось найти ставку на победу (теннис)')
+            return
+
+        # srb-ParticipantCenteredStackedMarketRow_Handicap
+
+        bet1 = columns_[1].find_elements_by_tag_name('div')[line_]
+        bet2 = columns_[2].find_elements_by_tag_name('div')[line_]
+
+        bet1_gendikap_value = bet1.find_element_by_class_name('srb-ParticipantCenteredStackedMarketRow_Handicap').text
+        bet2_gendikap_value = bet2.find_element_by_class_name('srb-ParticipantCenteredStackedMarketRow_Handicap').text
+
+
+        true_gendikap_value = bet_type.split('(')
+        true_gendikap_value = true_gendikap_value[-1]
+        true_gendikap_value = true_gendikap_value.strip(')')
+        if true_gendikap_value[0] != '-':
+            true_gendikap_value = '+' + true_gendikap_value
+
+        if 'Ф1' in bet_type:
+            if true_gendikap_value != bet1_gendikap_value:
+                print('Значение гандикапа изменилось')
+
+            bet1.click()
+            time.sleep(2)
+            self.make_a_bet(bet_value, coef, bet1)
+        else:
+            if true_gendikap_value != bet2_gendikap_value:
+                print('Значение гандикапа изменилось')
+
+            bet2.click()
+            time.sleep(2)
+            self.make_a_bet(bet_value, coef, bet2)
 
 
     def get_bet365_balance(self):
