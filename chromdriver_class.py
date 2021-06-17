@@ -887,6 +887,7 @@ class FireFoxDriverWithProxy:
         time.sleep(3)
 
         list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+
         line = 0
         for i in range(len(list_of_bets)):
             bet_element = list_of_bets[i]
@@ -924,7 +925,7 @@ class FireFoxDriverWithProxy:
                 bet_text = bet_text1.text
                 print(f'{counter_}: {bet_text}')
                 if bet_text == 'Гандикап (Игры)':
-                    line_ = counter_
+                    line_ = counter_ - 1
                     print(line_)
                     break
             except:
@@ -943,7 +944,8 @@ class FireFoxDriverWithProxy:
 
         bet1_gendikap_value = bet1.find_element_by_class_name('srb-ParticipantCenteredStackedMarketRow_Handicap').text
         bet2_gendikap_value = bet2.find_element_by_class_name('srb-ParticipantCenteredStackedMarketRow_Handicap').text
-
+        print(f'1 gandicap: {bet1_gendikap_value}')
+        print(f'2 gandicap: {bet2_gendikap_value}')
 
         true_gendikap_value = bet_type.split('(')
         true_gendikap_value = true_gendikap_value[-1]
