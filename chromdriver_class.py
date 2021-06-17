@@ -956,6 +956,7 @@ class FireFoxDriverWithProxy:
         if 'Ф1' in bet_type:
             if true_gendikap_value != bet1_gendikap_value:
                 print('Значение гандикапа изменилось')
+                return
 
             bet1.click()
             time.sleep(2)
