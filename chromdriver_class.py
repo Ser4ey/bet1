@@ -958,7 +958,8 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
             answer_ = self.check_ip()
             if answer_:
                 # повторная проверка
-                time.sleep(3)
+                print('повторная проверка')
+                time.sleep(5)
                 answer2 = self.check_ip()
                 if answer2:
                     print('[+] Stop scerch for new ip')
@@ -999,7 +1000,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                 try:
                     time.sleep(3)
                     self.driver.find_element_by_class_name('hm-MainHeaderRHSLoggedOutWide_LoginContainer')
-                    print('[+] Log in account with VPN')
+                    print('[+] OK VPN')
                     return True
                 except:
                     print('wait...')
