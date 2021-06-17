@@ -882,7 +882,7 @@ class FireFoxDriverWithProxy:
 
 
     def make_table_tennis_bet_F1_F2_gandikap_of_match(self, url, bet_type, coef, bet_value):
-        print(f'Проставляем ставку Ф1(-2.5)(Гандикап) (table tennis): {url}; bet_type: {bet_type}; coef: {coef}')
+        print(f'Проставляем ставку Ф1(2.5)(Гандикап) (table tennis): {url}; bet_type: {bet_type}; coef: {coef}')
         self.driver.get(url)
         time.sleep(3)
 
@@ -922,8 +922,10 @@ class FireFoxDriverWithProxy:
         for bet_text1 in columns_[0].find_elements_by_tag_name('div'):
             try:
                 bet_text = bet_text1.text
+                print(f'{counter_}: {bet_text}')
                 if bet_text == 'Гандикап (Игры)':
                     line_ = counter_
+                    print(line_)
                     break
             except:
                 pass
@@ -948,6 +950,8 @@ class FireFoxDriverWithProxy:
         true_gendikap_value = true_gendikap_value.strip(')')
         if true_gendikap_value[0] != '-':
             true_gendikap_value = '+' + true_gendikap_value
+
+        print(f'True gandicap: {true_gendikap_value}')
 
         if 'Ф1' in bet_type:
             if true_gendikap_value != bet1_gendikap_value:
