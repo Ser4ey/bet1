@@ -1,163 +1,63 @@
-import json
-import threading
+from chromdriver_class import FireFoxDriverWithProxy, ChromeCloudFlareProtection, FireFoxDriverWithVPN
 import time
-import pickle
-import pyautogui
-import requests
-from matplotlib import pyplot as plt
 import data
-from chromdriver_class import ChromeCloudFlareProtection, FireFoxDriverWithProxy
+import datetime
 import telegram_api
+from multiprocessing.dummy import Pool
+import random
+from graphic_telegram import Grafic_Bet365_Telegram
+
+def change_domenzone_in_url(url1, pref, post):
+    url1 = url1.replace(pref, post)
+    return url1
 
 
-i = data.graphic_account
-# driver2 = FireFoxDriverWithProxy(path_to_geckodriver=data.path_to_geckodriver, user_agent=data.Accounts[i][0],
-#                                  proxy=data.Accounts[i][1], proxy_login_and_password=data.Accounts[i][2],
-#                                  type_of_account=data.Accounts[i][6], final_balance=data.Accounts[i][7],
-#                                  account_code_name=data.Accounts[i][8])
-# driver2.log_in_bet365(data.Accounts[i][3], data.Accounts[i][4], data.Accounts[i][6])
-class driver111:
-    def __init__(self):
-        self.driver = '12'
-        self.type_of_account = '122'
-
-driver1 = driver111()
-class Grafic_Bet365_Telegram:
-    def __init__(self, account_name, driver):
-        self.account_name = account_name
-        self.driver = driver.driver
-        self.type_of_account = driver.type_of_account
-
-        def json_create_account_dir(account_name):
-            '''Создаёт директорию аккаунта, если её не существует'''
-            with open('data_of_bets.json', 'r', encoding='utf-8') as file:
-                data1 = json.load(file)
-
-            if account_name not in data1:
-                print(f'dir для аккаунта {account_name} была создана')
-                data1[account_name] = []
-
-                with open('data_of_bets.json', 'w', encoding='utf-8') as file:
-                    json.dump(data1, file, indent=4, ensure_ascii=False)
-
-        json_create_account_dir(self.account_name)
-
-        with open('data_of_bets.json', 'r', encoding='utf-8') as file:
-            data1 = json.load(file)
-        self.account_bets = data1
-
-    def get_new_bets_from_bet365(self):
-        '''Возвращает новый список ставок из аккаунта'''
-        driver = self.driver
-        elements = '122'
-
-        while True:
-            try:
-                if self.type_of_account == '.com':
-                    driver.get('https://www.bet365.com/#/MB/')
-                else:
-                    driver.get('https://www.bet365.ru/#/MB/')
-
-                time.sleep(4)
-                driver.find_elements_by_class_name('myb-MyBetsHeader_Button')[-1].click()
-                time.sleep(2)
-                print('ok1')
-                elements = driver.find_elements_by_class_name('myb-SettledBetItemHeader ')
-                print(len(elements), 'element')
-                break
-            except:
-                if self.type_of_account == '.com':
-                    driver.get('https://www.bet365.com/#/MB/')
-                else:
-                    driver.get('https://www.bet365.ru/#/MB/')
+def make_bet_multipotok(All_elements_array):
+    print('Ставим ставку на одном из аккаунтов')
+    driver, url, bet, coef, bet_value, sport_type = All_elements_array
+    # driver.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=bet_value)
+    driver.start_make_bet_and_choose_sport_type(sport_type=sport_type, url=url, bet_type=bet,
+                                                coef=coef, bet_value=bet_value)
 
 
-        List_of_bets = []
-        for bet in elements:
-            try:
-                value_of_bet = bet.find_element_by_class_name('myb-SettledBetItemHeader_Text ').text
-                type_of_bet = bet.find_element_by_class_name('myb-SettledBetItem_SubHeaderText ').text
-                win_or_lose = bet.find_element_by_class_name('myb-SettledBetItem_BetStateContainer ').text
+def make_notify_about_final_balance_telegram(driver, bot_token, user_id_list):
 
-                if value_of_bet == '' or type_of_bet == '' or win_or_lose == '':
-                    continue
+    driver.close_cupon()
 
-                bet_info = [win_or_lose, type_of_bet, value_of_bet]
-                List_of_bets.append(bet_info)
-                # print(bet_info)
-            except Exception as er:
-                print(er, '12a')
+    old_balance = driver.current_account_balance
+    current_balance = driver.get_bet365_balance()
 
-        return List_of_bets
+    if old_balance == current_balance:
+        print(f'{driver.account_code_name} ({driver.bet365_account_name}) баланс на это аккаунте не изменился {current_balance}')
+        return
 
-    def update_account_bets(self):
-        '''Допалняет информацию об ставках новыми данными (автоматически)
-        data от старых к новым
-        new_data от новых к старым
-        '''
+    if driver.type_of_account == '.ru':
+        vallet = 'rub'
+    else:
+        vallet = '$'
 
-        new_data = self.get_new_bets_from_bet365()
-        data = self.account_bets[self.account_name]
+    text = f'{driver.account_code_name} ({driver.bet365_account_name}) - {current_balance} {vallet}.'
+    print(text)
 
-        List_of_new_elements = []
-        # print(new_data, '1')
-        # print(data, '2')
+    if current_balance > float(driver.final_balance):
 
-        for i in range(len(new_data)):
-            if new_data[i] not in data:
-                print(new_data[i], 'new bet')
-                List_of_new_elements.append(new_data[i])
+        for user_id in user_id_list:
+            telegram_api.telegram_bot_send_message(bot_token=bot_token, chat_id=user_id, text='-'*32)
+            telegram_api.telegram_bot_send_message(bot_token=bot_token, chat_id=user_id, text=text)
 
 
-
-        data = data + List_of_new_elements[::-1]
-        self.account_bets[self.account_name] = data
-        # print(self.account_bets, '1a')
-
-    def update_json_file(self):
-        '''Обновляет json file на основе текущего заначения self.account_bets'''
-        with open('data_of_bets.json', 'w', encoding='utf-8') as file:
-            json.dump(self.account_bets, file, indent=4, ensure_ascii=False)
-
-    def create_and_safe_grafic(self):
-        y_list = [i[0] for i in self.account_bets[self.account_name]]
-
-        A = [0]
-        for i in range(len(y_list)):
-            if y_list[i] == 'Проигрыш':
-                A.append(A[i] - 1)
-            else:
-                A.append(A[i] + 1)
-
-        y_list = A
-
-        x_list = range(1, len(y_list) + 1)
-        y_list2 = [0] * len(y_list)
-
-        plt.title(f'Ставки аккаунта {self.account_name}')
-        plt.xlabel('Кол-во ставок')
-        plt.ylabel('Кол-во выигрышей/проигрышей')
-        plt.plot(x_list, y_list2, color='black')
-        plt.plot(x_list, y_list, marker='o', color='brown')
-        #plt.plot(x_list, y_list)
-
-        plt.savefig('1.png', dpi=600)
-
-    def send_telegram_notifay(self):
-        '''Отправляеттелеграм уведомление (график) админам'''
-        for admin in data.Telegram_admins:
-            telegram_api.telegram_bot_send_photo(data.BOT_TOKEN_GRAF, admin, '1.png')
-
-    def send_actual_grafic(self):
-        self.update_account_bets()
-        self.update_json_file()
-
-        self.create_and_safe_grafic()
-        self.send_telegram_notifay()
+def reanimate_bet365com(driver):
+    driver.reanimaite_bet365com()
 
 
+i = 0
+driver2 = FireFoxDriverWithVPN(path_to_geckodriver=data.path_to_geckodriver, user_agent=data.Accounts[i][0],
+                            proxy=data.Accounts[i][1], proxy_login_and_password=data.Accounts[i][2], type_of_account=data.Accounts[i][6], final_balance=data.Accounts[i][7], account_code_name=data.Accounts[i][8], is_reversed=data.Accounts[i][9])
 
 
-u1 = Grafic_Bet365_Telegram(data.graphic_account_code, driver1)
+url = 'https://www.bet365.com/#/IP/EV15616941655C92'
 
-u1.create_and_safe_grafic()
+bet_type = 'Ф1(2.5)'
+
+driver2.make_table_tennis_bet(url=url, bet_type=bet_type, coef='1', bet_value='0.1')
+

@@ -923,7 +923,7 @@ class FireFoxDriverWithProxy:
             try:
                 bet_text = bet_text1.text
                 if bet_text == 'Гандикап (Игры)':
-                    line_ =counter_
+                    line_ = counter_
                     break
             except:
                 pass
