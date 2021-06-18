@@ -938,7 +938,7 @@ class FireFoxDriverWithProxy:
         # bet_text = columns_[0].find_elements_by_tag_name('div')[1].text
 
         if line_ == -1:
-            print('Не удалось найти ставку на победу (теннис)')
+            print('Не удалось найти ставку на гандикап (теннис)')
             return
 
         # srb-ParticipantCenteredStackedMarketRow_Handicap
@@ -1023,6 +1023,7 @@ class FireFoxDriverWithProxy:
                 print(f'{counter_}: {bet_text}')
                 if bet_text == 'Гандикап':
                     line_ = counter_
+                    # -1 ?
                     print(line_)
                     break
             except:
@@ -1031,7 +1032,7 @@ class FireFoxDriverWithProxy:
         # bet_text = columns_[0].find_elements_by_tag_name('div')[1].text
 
         if line_ == -1:
-            print('Не удалось найти ставку на победу (теннис)')
+            print('Не удалось найти ставку на гандикап на игру (теннис)')
             return
 
         # srb-ParticipantCenteredStackedMarketRow_Handicap
@@ -1042,8 +1043,8 @@ class FireFoxDriverWithProxy:
         bet1_gendikap_value = bet1.find_element_by_class_name('srb-ParticipantCenteredStackedMarketRow_Handicap').text
         bet2_gendikap_value = bet2.find_element_by_class_name('srb-ParticipantCenteredStackedMarketRow_Handicap').text
 
-
-        true_gendikap_value = bet_type.split('(')
+        true_gendikap_value = bet_type.split(' ')[0]
+        true_gendikap_value = true_gendikap_value.split('(')
         true_gendikap_value = true_gendikap_value[-1]
         true_gendikap_value = true_gendikap_value.strip(')')
         if true_gendikap_value[0] != '-':
