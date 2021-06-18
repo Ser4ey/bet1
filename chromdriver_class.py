@@ -1022,7 +1022,7 @@ class FireFoxDriverWithProxy:
                 bet_text = bet_text1.text
                 print(f'{counter_}: {bet_text}')
                 if bet_text == 'Гандикап':
-                    line_ = counter_
+                    line_ = counter_ - 1
                     # -1 ?
                     print(line_)
                     break
