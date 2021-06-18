@@ -822,7 +822,7 @@ class FireFoxDriverWithProxy:
         if bet_type == 'П1' or bet_type == 'П2':
             # П1 П2
             self.make_table_tennis_bet_P1_P2(url, bet_type, coef, bet_value)
-        elif ('П1' in bet_type or 'П2' in bet_type) and len(bet_type) > 10:
+        elif ('П1' in bet_type or 'П2' in bet_type) and len(bet_type) > 5:
             # П1 (1 партия)
             self.make_table_tennis_bet_P1_P2_of_game1(url, bet_type, coef, bet_value)
         elif ('Ф1' in bet_type or 'Ф2' in bet_type) and len(bet_type) < 10:
