@@ -816,6 +816,50 @@ class FireFoxDriverWithProxy:
             self.make_a_bet(bet_value, coef, bets[0])
 
 
+    def make_cyber_football_bet_gandikap_with_3_exists(self, url, bet_type, coef, bet_value):
+        # Г1(1) Г2(0) Г1(-1)   (1 -> +1)
+        print(f'Проставляем ставку Гандикап с 3 исходами url: {url}; bet_type: {bet_type}; coef: {coef}')
+        self.driver.get(url)
+        time.sleep(3)
+
+        list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+        line = 0
+        for i in range(len(list_of_bets)):
+            bet_element = list_of_bets[i]
+            text1 = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+            if text1 == 'ГАНДИКАП С 3 ИСХОДАМИ':
+                line = i
+                break
+
+        bet_element = list_of_bets[line]
+        text = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+        if text != 'ГАНДИКАП С 3 ИСХОДАМИ':
+            print('Ставка Гандикап с 3 исходами не найдена')
+            return
+
+        try:
+            bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+        except:
+            print('Разворачиваем ставку')
+            bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').click()
+            time.sleep(0.5)
+            list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+            bet_element = list_of_bets[line]
+
+        element_with_bets = bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+
+        gandicaps = element_with_bets.find_elements_by_class_name('gl-ParticipantCentered_Handicap')
+        bets_list = element_with_bets.find_elements_by_class_name('gl-ParticipantCentered ')
+
+        for g in gandicaps:
+            print(f'g: {g}')
+
+        bets_list[0].click()
+        # pass
+
+
     def make_table_tennis_bet(self, url, bet_type, coef, bet_value):
         '''Ставка на настольный теннис'''
 
@@ -958,8 +1002,6 @@ class FireFoxDriverWithProxy:
             bet2.click()
             time.sleep(2)
             self.make_a_bet(bet_value, coef, bet2)
-
-
 
 
     def make_table_tennis_bet_F1_F2_gandikap_of_match(self, url, bet_type, coef, bet_value):
