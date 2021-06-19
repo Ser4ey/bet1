@@ -888,7 +888,7 @@ class FireFoxDriverWithProxy:
             self.make_a_bet(bet_value, coef, bet2)
 
     def make_table_tennis_bet_P1_P2_of_game1(self, url, bet_type, coef, bet_value):
-        '''Побеа в отдельной игре, а не на всё партию целиком'''
+        '''Побеа в отдельной игре, а не на всю партию целиком'''
 
         print(f'Проставляем ставку П1 (3 партия)(table tennis): {url}; bet_type: {bet_type}; coef: {coef}')
         self.driver.get(url)
