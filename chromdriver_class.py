@@ -853,6 +853,12 @@ class FireFoxDriverWithProxy:
         gandicaps = element_with_bets.find_elements_by_class_name('gl-ParticipantCentered_Handicap')
         bets_list = element_with_bets.find_elements_by_class_name('gl-ParticipantCentered ')
 
+        true_gandicap = bet_type[3:]
+        true_gandicap = true_gandicap.strip('(')
+        true_gandicap = true_gandicap.strip(')')
+        print(f'true gandicap: {true_gandicap}')
+
+
         for g in gandicaps:
             print(f'g: {g}')
 
