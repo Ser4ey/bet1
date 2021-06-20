@@ -55,10 +55,10 @@ driver2 = FireFoxDriverWithVPN(path_to_geckodriver=data.path_to_geckodriver, use
                             proxy=data.Accounts[i][1], proxy_login_and_password=data.Accounts[i][2], type_of_account=data.Accounts[i][6], final_balance=data.Accounts[i][7], account_code_name=data.Accounts[i][8], is_reversed=data.Accounts[i][9])
 driver2.log_in_bet365(data.Accounts[i][3], data.Accounts[i][4], data.Accounts[i][6])
 
-url = 'https://www.bet365.com/#/IP/EV15617391595C92'
+url = 'https://www.bet365.com/#/IP/EV15618120772C151'
 
-bet_type = 'П1 (1 партия)'
+bet_type = 'Г1(1)'
 
 
-driver2.make_table_tennis_bet(url=url, bet_type=bet_type, coef='1', bet_value='0.1')
+driver2.make_cyber_football_bet_gandikap_with_3_exists(url=url, bet_type=bet_type, coef='1', bet_value='0.1')
 

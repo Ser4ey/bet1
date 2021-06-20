@@ -860,9 +860,9 @@ class FireFoxDriverWithProxy:
 
 
         for g in gandicaps:
-            print(f'g: {g}')
+            print(f'g: {g.text}')
 
-        bets_list[0].click()
+        bets_list[-1].click()
         # pass
 
 
