@@ -501,6 +501,8 @@ class FireFoxDriverWithProxy:
             self.make_cyber_football_bet_odd_or_even(url, bet_type, coef, bet_value)
         elif 'Г1' in bet_type or 'Г2' in bet_type:
             self.make_cyber_football_bet_gandikap_with_3_exists(url, bet_type, coef, bet_value)
+        elif 'Ф1' in bet_type or 'Ф2' in bet_type:
+            self.make_cyber_football_bet_F1_F2(url, bet_type, coef, bet_value)
         else:
             if 'Команда' in bet_type:
                 if 'Тб' in bet_type or 'Тм' in bet_type:
