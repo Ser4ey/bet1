@@ -424,7 +424,7 @@ class FireFoxDriverWithProxy:
 
     def reverse_cyber_football_bet(self, bet_type):
         '''Изменение ставки на противоположное плечо (1 -> 2Х) (Тб 1.5 -> Тм 1.5)'''
-        reverse_bet = 'Unknown bet'
+        reverse_bet = bet_type
 
         if bet_type == 'П1' or bet_type == '1':
             #  1 -> X2
@@ -499,6 +499,8 @@ class FireFoxDriverWithProxy:
             self.make_cyber_football_bet_gola_ne_budet(url, bet_type, coef, bet_value)
         elif bet_type == 'Чет' or bet_type == 'Нечет':
             self.make_cyber_football_bet_odd_or_even(url, bet_type, coef, bet_value)
+        elif 'Г1' in bet_type or 'Г2' in bet_type:
+            self.make_cyber_football_bet_gandikap_with_3_exists(url, bet_type, coef, bet_value)
         else:
             if 'Команда' in bet_type:
                 if 'Тб' in bet_type or 'Тм' in bet_type:
@@ -875,6 +877,7 @@ class FireFoxDriverWithProxy:
 
         if gandicap != true_gandicap:
             print('Гандикап изменился')
+            return
 
         bet_.click()
         time.sleep(2)
