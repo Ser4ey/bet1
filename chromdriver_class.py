@@ -884,6 +884,55 @@ class FireFoxDriverWithProxy:
         self.make_a_bet(bet_value, coef, bet_)
 
 
+    def make_cyber_football_bet_F1_F2(self, url, bet_type, coef, bet_value):
+        # Ф2(-3)
+        print(f'Проставляем ставку Ф url: {url}; bet_type: {bet_type}; coef: {coef}')
+        self.driver.get(url)
+        time.sleep(3)
+
+        list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+        line = 0
+        for i in range(len(list_of_bets)):
+            bet_element = list_of_bets[i]
+            text1 = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+            if 'АЗИАТСКИЙ ГАНДИКАП' in text1:
+                line = i
+                break
+
+        bet_element = list_of_bets[line]
+        text = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
+
+        if not 'АЗИАТСКИЙ ГАНДИКАП' in text:
+            print('Ставка Ф не найдена')
+            return
+
+        try:
+            bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+        except:
+            print('Разворачиваем ставку')
+            bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').click()
+            time.sleep(0.5)
+            list_of_bets = self.driver.find_elements_by_class_name('sip-MarketGroup ')
+            bet_element = list_of_bets[line]
+
+        element_with_bets = bet_element.find_element_by_class_name('gl-MarketGroup_Wrapper ')
+
+
+        bets_list = element_with_bets.find_elements_by_class_name('gl-ParticipantCentered ')
+
+
+        if 'Ф1' in bet_type:
+            line_ = 0
+        else:
+            line_ = -1
+
+        bet_ = bets_list[line_]
+
+        bet_.click()
+        time.sleep(2)
+        self.make_a_bet(bet_value, coef, bet_)
+
 
     def make_table_tennis_bet(self, url, bet_type, coef, bet_value):
         '''Ставка на настольный теннис'''
