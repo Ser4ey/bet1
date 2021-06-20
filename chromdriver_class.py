@@ -815,7 +815,6 @@ class FireFoxDriverWithProxy:
             time.sleep(2)
             self.make_a_bet(bet_value, coef, bets[0])
 
-
     def make_cyber_football_bet_gandikap_with_3_exists(self, url, bet_type, coef, bet_value):
         # Г1(1) Г2(0) Г1(-1)   (1 -> +1)
         print(f'Проставляем ставку Гандикап с 3 исходами url: {url}; bet_type: {bet_type}; coef: {coef}')
@@ -856,14 +855,31 @@ class FireFoxDriverWithProxy:
         true_gandicap = bet_type[3:]
         true_gandicap = true_gandicap.strip('(')
         true_gandicap = true_gandicap.strip(')')
+
+        if true_gandicap == '0':
+            pass
+        elif true_gandicap[0] == '-':
+            pass
+        else:
+            true_gandicap = '+' + true_gandicap
+
         print(f'true gandicap: {true_gandicap}')
 
+        if 'Г1' in bet_type:
+            line_ = 0
+        else:
+            line_ = -1
 
-        for g in gandicaps:
-            print(f'g: {g.text}')
+        gandicap = gandicaps[line_]
+        bet_ = bets_list[line_]
 
-        bets_list[-1].click()
-        # pass
+        if gandicap != true_gandicap:
+            print('Гандикап изменился')
+
+        bet_.click()
+        time.sleep(2)
+        self.make_a_bet(bet_value, coef, bet_)
+
 
 
     def make_table_tennis_bet(self, url, bet_type, coef, bet_value):
