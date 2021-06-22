@@ -232,4 +232,7 @@ while True:
     graphic_bet_telegram_counter += 1
     #раз в 5 мин
     if graphic_bet_telegram_counter > 0:
-        graphic_bet_telegram.send_actual_grafic()
+        try:
+            graphic_bet_telegram.send_actual_grafic()
+        except:
+            pass
