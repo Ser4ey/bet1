@@ -1380,6 +1380,56 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
             self.driver.get('https://www.bet365.com/')
 
 
+    def restart_VPN_if_its_break(self):
+
+         try:
+             try:
+                 self.driver.get('https://www.bet365.com/')
+                 time.sleep(4)
+                 bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance ').text
+                 print(f'Аккаунт {self.bet365_account_name} - работает')
+             except:
+                bad_ip = True
+                while bad_ip:
+                    answer_ = self.check_ip()
+                    if answer_:
+                        # повторная проверка
+                        print('повторная проверка')
+                        time.sleep(5)
+                        answer2 = self.check_ip()
+                        if answer2:
+                            print('[+] Stop scerch for new ip')
+                            break
+
+                    self.driver.quit()
+                    time.sleep(2)
+                    #
+                    firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
+                    firefox_capabilities['marionette'] = True
+
+                    fp = webdriver.FirefoxProfile(
+                         r'C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\wxjvqcon.default-release-1')
+
+                    options = webdriver.FirefoxOptions()
+                    options.set_preference("dom.webdriver.enabled", False)
+                    options.set_preference("dom.webnotifications.enabled", False)
+                    binary = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+                    options.binary = binary
+
+                    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
+                    options.set_preference("general.useragent.override", user_agent)
+                     #
+                    self.driver = webdriver.Firefox(capabilities=firefox_capabilities, firefox_profile=fp,
+                                                     firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe',
+                                                     executable_path=r'C:\Users\Administrator\PycharmProjects\bet1\geckodriver.exe',
+                                                     options=options)
+                    time.sleep(2)
+         except:
+             pass
+
+         self.log_in_bet365(self.bet365_login, self.bet365_password, '1')
+
+
 
     def check_ip(self):
         self.driver.get('https://www.bet365.com/')
