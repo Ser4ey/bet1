@@ -240,19 +240,19 @@ class FireFoxDriverWithProxy:
                 except:
                     pass
 
-
         else:
             self.driver.get('https://www.bet365.ru/')
 
         print(f'Вход в аккаунт: {login}')
         time.sleep(5)
         # вход в аккаунт bet365ru
-        while True:
+        for i in range(10):
             try:
                 self.driver.find_element_by_class_name('hm-MainHeaderRHSLoggedOutWide_LoginContainer').click()
                 break
             except:
-                time.sleep(1)
+                print('Не удалось войти в аккаунт!')
+                time.sleep(2)
 
         time.sleep(5)
         while True:
@@ -308,6 +308,19 @@ class FireFoxDriverWithProxy:
         else:
             print('Неизвестный тип спорта')
 
+    def get_balence(self):
+
+        bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance').text
+        bet365balance = bet365balance.split(',')[0]
+        bet365balance = bet365balance.strip()
+        bet365balance = bet365balance.replace(' ', '')
+        bet365balance = float(bet365balance)
+        print(f'Баланс аккаунта {bet365balance}')
+
+        value = 3
+        value = (bet365balance / 100) * value
+        print('stavka:', value)
+        return bet365balance
 
     def make_a_bet(self, value, coef, element):
         '''Ставит ставку в открывшемся окошечке
