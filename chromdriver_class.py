@@ -378,8 +378,10 @@ class FireFoxDriverWithProxy:
         self.driver.find_element_by_class_name('qbs-NormalBetItem_DetailsContainer ') \
             .find_element_by_class_name('qbs-StakeBox_StakeInput ').click()
         time.sleep(0.3)
-        self.driver.find_element_by_tag_name("body").send_keys(str(value))
-        time.sleep(1)
+        for simvol in str(value):
+            self.driver.find_element_by_tag_name("body").send_keys(simvol)
+            time.sleep(0.3)
+        time.sleep(0.5)
         self.driver.find_element_by_class_name('qbs-BetPlacement ').click()
 
         flag = False
