@@ -216,6 +216,8 @@ class FireFoxDriverWithProxy:
         return url
 
     def log_in_bet365(self, login, password, type_of_account):
+        self.bet365_login = login
+        self.bet365_password = password
 
         if self.type_of_account == '.com':
 
