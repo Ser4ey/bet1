@@ -50,20 +50,22 @@ def reanimate_bet365com(driver):
     driver.reanimaite_bet365com()
 
 
-i = 0
+i = 3
 driver2 = FireFoxDriverWithVPN(path_to_geckodriver=data.path_to_geckodriver, user_agent=data.Accounts[i][0],
                             proxy=data.Accounts[i][1], proxy_login_and_password=data.Accounts[i][2], type_of_account=data.Accounts[i][6], final_balance=data.Accounts[i][7], account_code_name=data.Accounts[i][8], is_reversed=data.Accounts[i][9])
 driver2.log_in_bet365(data.Accounts[i][3], data.Accounts[i][4], data.Accounts[i][6])
 
-url = 'https://www.bet365.com/#/IP/EV15618120772C151'
+url = 'https://www.bet365.com/#/IP/EV15619357022C151'
 
 bet_type = 'Г1(1)'
 
-input('Tbter///')
-driver2.restart_VPN_if_its_break()
 
-input('Tbter///')
+time.sleep(3)
 driver2.restart_VPN_if_its_break()
+driver2.get_balence()
+
+driver2.make_cyber_football_bet(url, 'П1', '1', '%3')
+
 
 
 

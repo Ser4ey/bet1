@@ -1418,7 +1418,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
 
                 bad_ip = True
                 while bad_ip:
-                    # резагрузка драйвера
+                    # перезагрузка драйвера
                     self.driver.quit()
                     time.sleep(2)
                     #
