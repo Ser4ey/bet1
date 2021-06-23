@@ -1424,11 +1424,10 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                         if answer2:
                             print('[+] Stop scerch for new ip')
                             break
-
+                self.log_in_bet365(self.bet365_login, self.bet365_password, '1')
          except:
              pass
 
-         self.log_in_bet365(self.bet365_login, self.bet365_password, '1')
 
 
     def check_ip(self):
