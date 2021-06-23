@@ -59,6 +59,7 @@ url = 'https://www.bet365.com/#/IP/EV15618120772C151'
 
 bet_type = 'Г1(1)'
 
-
-driver2.make_cyber_football_bet_gandikap_with_3_exists(url=url, bet_type=bet_type, coef='1', bet_value='0.1')
+input('Tbter///')
+driver2.restart_VPN_if_its_break()
+# driver2.make_cyber_football_bet_gandikap_with_3_exists(url=url, bet_type=bet_type, coef='1', bet_value='0.1')
 
