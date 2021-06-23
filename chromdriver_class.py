@@ -168,7 +168,7 @@ class FireFoxDriverWithProxy:
                                    executable_path=path_to_geckodriver,
                                    proxy=proxy,
                                    options=options)
-
+        self.is_VPN = False
         self.driver = driver
         self.driver.get('https://2ip.ru/')
         self.type_of_account = type_of_account
@@ -1297,6 +1297,7 @@ class FireFoxDriverWithProxy:
 class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
     def __init__(self, path_to_geckodriver, user_agent, proxy, proxy_login_and_password, type_of_account, final_balance,
                  account_code_name, is_reversed):
+        self.is_VPN = True
         firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
         firefox_capabilities['marionette'] = True
 
@@ -1379,7 +1380,6 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
 
             self.driver.get('https://www.bet365.com/')
 
-
     def restart_VPN_if_its_break(self):
          try:
              try:
@@ -1427,7 +1427,6 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                 self.log_in_bet365(self.bet365_login, self.bet365_password, '1')
          except:
              pass
-
 
 
     def check_ip(self):

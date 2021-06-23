@@ -47,7 +47,10 @@ def make_notify_about_final_balance_telegram(driver, bot_token, user_id_list):
 
 
 def reanimate_bet365com(driver):
+    if driver.is_VPN:
+        driver.restart_VPN_if_its_break()
     driver.reanimaite_bet365com()
+
 
 
 driver1 = ChromeCloudFlareProtection()
