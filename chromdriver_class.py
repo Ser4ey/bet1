@@ -1381,7 +1381,6 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
 
 
     def restart_VPN_if_its_break(self):
-
          try:
              try:
                  self.driver.get('https://www.bet365.com/')
@@ -1428,7 +1427,6 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
              pass
 
          self.log_in_bet365(self.bet365_login, self.bet365_password, '1')
-
 
 
     def check_ip(self):
