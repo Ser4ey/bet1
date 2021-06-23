@@ -1392,16 +1392,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
 
                 bad_ip = True
                 while bad_ip:
-                    answer_ = self.check_ip()
-                    if answer_:
-                        # повторная проверка
-                        print('повторная проверка')
-                        time.sleep(5)
-                        answer2 = self.check_ip()
-                        if answer2:
-                            print('[+] Stop scerch for new ip')
-                            break
-
+                    # резагрузка драйвера
                     self.driver.quit()
                     time.sleep(2)
                     #
@@ -1417,14 +1408,23 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                     binary = r'C:\Program Files\Mozilla Firefox\firefox.exe'
                     options.binary = binary
 
-                    user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
-                    options.set_preference("general.useragent.override", user_agent)
-                     #
                     self.driver = webdriver.Firefox(capabilities=firefox_capabilities, firefox_profile=fp,
                                                      firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe',
                                                      executable_path=r'C:\Users\Administrator\PycharmProjects\bet1\geckodriver.exe',
                                                      options=options)
                     time.sleep(2)
+
+
+                    answer_ = self.check_ip()
+                    if answer_:
+                        # повторная проверка
+                        print('повторная проверка')
+                        time.sleep(5)
+                        answer2 = self.check_ip()
+                        if answer2:
+                            print('[+] Stop scerch for new ip')
+                            break
+
          except:
              pass
 
