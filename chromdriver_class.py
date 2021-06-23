@@ -226,7 +226,7 @@ class FireFoxDriverWithProxy:
             except:
                 pass
 
-            while True:
+            for i in range(10):
                 try:
                     try:
                         time.sleep(5)
