@@ -1389,7 +1389,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                  print(f'Аккаунт {self.bet365_account_name} - работает')
              except:
                 print(f'Аккаунт {self.bet365_account_name} - не работает')
-                self.driver.close()
+
                 bad_ip = True
                 while bad_ip:
                     answer_ = self.check_ip()
