@@ -633,14 +633,14 @@ class FireFoxDriverWithProxy:
             bet_element = list_of_bets[i]
             text1 = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
 
-            if text1 == 'ГОЛЫ МАТЧА':
+            if text1 == 'Голы матча':
                 line = i
                 break
 
         bet_element = list_of_bets[line]
         text = bet_element.find_element_by_class_name('sip-MarketGroupButton_Text ').text
 
-        if text != 'ГОЛЫ МАТЧА':
+        if text != 'Голы матча':
             print('Ставка(Голы матча не найдена/total bet) не найдена')
             return
 
