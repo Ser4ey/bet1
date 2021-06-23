@@ -358,6 +358,7 @@ class FireFoxDriverWithProxy:
         if str(value)[0] == '%':
             value = value[1:]
             value = float(value)
+            value = value / 100
             try:
                 bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance').text
                 bet365balance = bet365balance.split(',')[0]
@@ -368,12 +369,11 @@ class FireFoxDriverWithProxy:
             except:
                 bet365balance = 10
                 print(f'Баланс аккаунта {bet365balance}')
-            value = (bet365balance/100)*value
 
-            if value < 10:
-                value = float(value)
-            else:
-                value = int(value)
+            print(f'bet = {bet365balance} * {value}')
+            value = bet365balance * value
+            value = round(value, 2)
+            print('value:', value)
 
         self.driver.find_element_by_class_name('qbs-NormalBetItem_DetailsContainer ') \
             .find_element_by_class_name('qbs-StakeBox_StakeInput ').click()
