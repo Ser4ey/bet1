@@ -1388,6 +1388,8 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                  bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance ').text
                  print(f'Аккаунт {self.bet365_account_name} - работает')
              except:
+                print(f'Аккаунт {self.bet365_account_name} - не работает')
+                self.driver.close()
                 bad_ip = True
                 while bad_ip:
                     answer_ = self.check_ip()
