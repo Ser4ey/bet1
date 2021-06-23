@@ -311,17 +311,25 @@ class FireFoxDriverWithProxy:
             print('Неизвестный тип спорта')
 
     def get_balence(self):
+        value = '%3'
+        if str(value)[0] == '%':
+            value = value[1:]
+            value = float(value)
+            print(f'value1: {value}')
+            try:
+                bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance').text
+                bet365balance = bet365balance.split(',')[0]
+                bet365balance = bet365balance.strip()
+                bet365balance = bet365balance.replace(' ', '')
+                bet365balance = float(bet365balance)
+                print(f'Баланс аккаунта {bet365balance}')
+            except:
+                bet365balance = 10
+                print(f'Баланс аккаунта {bet365balance}')
+            value = (bet365balance/100)*value
 
-        bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance').text
-        bet365balance = bet365balance.split(',')[0]
-        bet365balance = bet365balance.strip()
-        bet365balance = bet365balance.replace(' ', '')
-        bet365balance = float(bet365balance)
-        print(f'Баланс аккаунта {bet365balance}')
-
-        value = 3
-        value = (bet365balance / 100) * value
-        print('stavka:', value)
+        value = (bet365balance/100)*value
+        print('value2:', value)
         return bet365balance
 
     def make_a_bet(self, value, coef, element):
@@ -901,7 +909,6 @@ class FireFoxDriverWithProxy:
         bet_.click()
         time.sleep(2)
         self.make_a_bet(bet_value, coef, bet_)
-
 
     def make_cyber_football_bet_F1_F2(self, url, bet_type, coef, bet_value):
         # Ф2(-3)
