@@ -255,7 +255,7 @@ class FireFoxDriverWithProxy:
                 time.sleep(2)
 
         time.sleep(5)
-        while True:
+        for i in range(10):
             try:
                 self.driver.find_element_by_class_name('lms-StandardLogin_Username').send_keys(login)
                 time.sleep(0.7)
@@ -264,9 +264,11 @@ class FireFoxDriverWithProxy:
                 break
             except:
                 time.sleep(1)
+                print('Не удалось войти в аккаунт')
+                return
 
         self.driver.find_element_by_class_name('lms-StandardLogin_LoginButton').click()
-        time.sleep(12)
+        time.sleep(10)
         print('Вы успешно вошли в аккаунт bet365.ru')
         self.bet365_account_name = login
 
