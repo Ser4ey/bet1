@@ -1,4 +1,5 @@
 import csv
+import os
 import pickle
 import threading
 import pyautogui
@@ -206,8 +207,25 @@ class FireFoxDriverWithProxy:
         Получает блок с вилкой
         Записывает полученные данные в .csv
         '''
-        with open('vilki_logs.csv', 'a', encoding='utf-8') as f:
-            writer = csv.writer(f)
+
+        if not os.path.exists('vilki_logs.csv'):
+            with open('vilki_logs.csv', 'a', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                row = (
+                    'вид спорта',
+                    'процент вилки',
+                    'время жизни вилки',
+                    'название противоположной бк',
+                    'команда 1',
+                    'команда 2',
+                    'вид ставки',
+                    'коэффициент на Bet365',
+                    'количество инициаторов у Bet365',
+                    'коэффициент противоположной БК',
+                    'количество инициаторов противоположной БК',
+                    'кто является инициатором'
+                )
+                writer.writerow(row)
 
     def go_to_bet_from_positivebet_an_return_url(self, element):
         current_page = self.driver.current_window_handle
