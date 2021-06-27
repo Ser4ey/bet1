@@ -307,6 +307,7 @@ class FireFoxDriverWithProxy:
             )
 
             writer.writerow(row)
+            print('Новая запись в таблице!')
 
 
     def go_to_bet_from_positivebet_an_return_url(self, element):
