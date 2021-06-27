@@ -262,7 +262,7 @@ class FireFoxDriverWithProxy:
             numbers_of_vilki_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].find_elements_by_tag_name('sub').text
         except:
             pass
-        coef_bet365 = coef_bet365[:len(coef_bet365)-numbers_of_vilki_bet365]
+        # coef_bet365 = coef_bet365[:len(coef_bet365)-numbers_of_vilki_bet365]
         print(f'Q {coef_bet365} {numbers_of_vilki_bet365}')
 
         coef_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].text
@@ -271,7 +271,7 @@ class FireFoxDriverWithProxy:
             numbers_of_vilki_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].find_elements_by_tag_name('sub').text
         except:
             pass
-        coef_other = coef_other[:len(coef_other)-numbers_of_vilki_other]
+        # coef_other = coef_other[:len(coef_other)-numbers_of_vilki_other]
         print(f'Q {coef_other} {numbers_of_vilki_other}')
 
         inicializqator = '0'
