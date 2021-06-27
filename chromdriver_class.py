@@ -1,3 +1,4 @@
+import csv
 import pickle
 import threading
 import pyautogui
@@ -199,6 +200,14 @@ class FireFoxDriverWithProxy:
         self.driver.get('https://positivebet.com/ru/bets/index')
         time.sleep(3)
         self.is_login_in_positivebet = True
+
+    def get_all_info_from_positivebet_and_write_it_in_csv(self, block):
+        '''
+        Получает блок с вилкой
+        Записывает полученные данные в .csv
+        '''
+        with open('vilki_logs.csv', 'a', encoding='utf-8') as f:
+            writer = csv.writer(f)
 
     def go_to_bet_from_positivebet_an_return_url(self, element):
         current_page = self.driver.current_window_handle
