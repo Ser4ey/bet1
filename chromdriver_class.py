@@ -259,7 +259,7 @@ class FireFoxDriverWithProxy:
         coef_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].text
         numbers_of_vilki_bet365 = '0'
         try:
-            numbers_of_vilki_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].find_elements_by_tag_name('sub').text
+            numbers_of_vilki_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].find_element_by_tag_name('sub').text
         except:
             pass
         # coef_bet365 = coef_bet365[:len(coef_bet365)-numbers_of_vilki_bet365]
@@ -268,7 +268,7 @@ class FireFoxDriverWithProxy:
         coef_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].text
         numbers_of_vilki_other = '0'
         try:
-            numbers_of_vilki_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].find_elements_by_tag_name('sub').text
+            numbers_of_vilki_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].find_element_by_tag_name('sub').text
         except:
             pass
         # coef_other = coef_other[:len(coef_other)-numbers_of_vilki_other]
@@ -299,7 +299,7 @@ class FireFoxDriverWithProxy:
                 team1, #'команда 1',
                 team2, #'команда 2',
                 bet_type, #'вид ставки',
-                coef_bet365, 'коэффициент на Bet365',
+                coef_bet365, #'коэффициент на Bet365',
                 numbers_of_vilki_bet365, #'количество инициаторов у Bet365',
                 coef_other, #'коэффициент противоположной БК',
                 numbers_of_vilki_other, #'количество инициаторов противоположной БК',
