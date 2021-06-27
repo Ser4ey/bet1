@@ -212,7 +212,7 @@ class FireFoxDriverWithProxy:
             with open('vilki_logs.csv', 'a', encoding='utf-8') as f:
                 writer = csv.writer(f)
                 row = (
-                    'вид спорта',
+                    'вид спорта', #
                     'процент вилки',
                     'время жизни вилки',
                     'название противоположной бк',
@@ -225,7 +225,86 @@ class FireFoxDriverWithProxy:
                     'количество инициаторов противоположной БК',
                     'кто является инициатором'
                 )
+
                 writer.writerow(row)
+
+
+        Info = block
+        # Info = block.find_elements_by_tag_name('td')
+
+        sport_type = Info[0].find_elements_by_tag_name('a')[2].find_element_by_tag_name('img').get_attribute('alt')
+        live_time = Info[0].find_elements_by_tag_name('div')[-1].text
+        profit = Info[1].text
+
+        bk = Info[2].find_elements_by_tag_name('a')
+        bk = [i.text for i in bk]
+        if 'Bet365' in bk[0]:
+            line_with_bet365 = 0
+            line_with_other_bk = 1
+        else:
+            line_with_bet365 = 1
+            line_with_other_bk = 0
+
+        other_bk_name = bk[line_with_other_bk]
+
+        event = Info[3].find_elements_by_tag_name('a')[(line_with_bet365 + 1) * 2 - 1].text
+        teams = event.split(' vs ')
+        team1 = teams[0]
+        team2 = teams[-1]
+
+        bet_type = Info[4].find_elements_by_tag_name('a')[line_with_bet365].text
+
+
+        coef_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].text
+        numbers_of_vilki_bet365 = '0'
+        try:
+            numbers_of_vilki_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].find_elements_by_tag_name('sub').text
+        except:
+            pass
+        coef_bet365 = coef_bet365[:len(coef_bet365)-numbers_of_vilki_bet365]
+
+
+        coef_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].text
+        numbers_of_vilki_other = '0'
+        try:
+            numbers_of_vilki_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].find_elements_by_tag_name('sub').text
+        except:
+            pass
+        coef_other = coef_other[:len(coef_other)-numbers_of_vilki_other]
+
+        inicializqator = '0'
+        try:
+            a = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].find_element_by_tag_name('b').text
+            if len(a) > 0:
+                inicializqator = 'Bet365'
+        except:
+            pass
+        try:
+            a = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].find_element_by_tag_name('b').text
+            if len(a) > 0:
+                inicializqator = other_bk_name
+        except:
+            pass
+
+        with open('vilki_logs.csv', 'a', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            row = (
+                sport_type, #'вид спорта',
+                profit, #'процент вилки',
+                live_time, #'время жизни вилки',
+                other_bk_name, #'название противоположной бк',
+                team1, #'команда 1',
+                team2, #'команда 2',
+                bet_type, #'вид ставки',
+                coef_bet365, 'коэффициент на Bet365',
+                numbers_of_vilki_bet365, #'количество инициаторов у Bet365',
+                coef_other, #'коэффициент противоположной БК',
+                numbers_of_vilki_other, #'количество инициаторов противоположной БК',
+                inicializqator #'кто является инициатором'
+            )
+
+            writer.writerow(row)
+
 
     def go_to_bet_from_positivebet_an_return_url(self, element):
         current_page = self.driver.current_window_handle
