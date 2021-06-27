@@ -254,7 +254,7 @@ class FireFoxDriverWithProxy:
         team2 = teams[-1]
 
         bet_type = Info[4].find_elements_by_tag_name('a')[line_with_bet365].text
-        print(f'Q {other_bk_name} {team1} {team2}')
+        print(f'Q {bet_type} {other_bk_name} {team1} {team2}')
 
         coef_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].text
         numbers_of_vilki_bet365 = '0'
