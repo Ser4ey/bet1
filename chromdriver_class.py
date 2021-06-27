@@ -235,6 +235,7 @@ class FireFoxDriverWithProxy:
         sport_type = Info[0].find_elements_by_tag_name('a')[2].find_element_by_tag_name('img').get_attribute('alt')
         live_time = Info[0].find_elements_by_tag_name('div')[-1].text
         profit = Info[1].text
+        print(f'Q {sport_type} {profit} {live_time}')
 
         bk = Info[2].find_elements_by_tag_name('a')
         bk = [i.text for i in bk]
@@ -253,7 +254,7 @@ class FireFoxDriverWithProxy:
         team2 = teams[-1]
 
         bet_type = Info[4].find_elements_by_tag_name('a')[line_with_bet365].text
-
+        print(f'Q {other_bk_name} {team1} {team2}')
 
         coef_bet365 = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].text
         numbers_of_vilki_bet365 = '0'
@@ -262,7 +263,7 @@ class FireFoxDriverWithProxy:
         except:
             pass
         coef_bet365 = coef_bet365[:len(coef_bet365)-numbers_of_vilki_bet365]
-
+        print(f'Q {coef_bet365} {numbers_of_vilki_bet365}')
 
         coef_other = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].text
         numbers_of_vilki_other = '0'
@@ -271,6 +272,7 @@ class FireFoxDriverWithProxy:
         except:
             pass
         coef_other = coef_other[:len(coef_other)-numbers_of_vilki_other]
+        print(f'Q {coef_other} {numbers_of_vilki_other}')
 
         inicializqator = '0'
         try:
@@ -285,6 +287,7 @@ class FireFoxDriverWithProxy:
                 inicializqator = other_bk_name
         except:
             pass
+        print(f'Q {inicializqator}')
 
         with open('vilki_logs.csv', 'a', encoding='utf-8') as f:
             writer = csv.writer(f)
