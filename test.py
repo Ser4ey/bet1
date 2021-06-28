@@ -121,8 +121,8 @@ while True:
                 Set_of_all_Bets.add(string_of_result)
 
                 # print(profit, bk, line, event, event_url, bet, coef)
-                url = driver1.go_to_bet_from_positivebet_an_return_url(bet_element)
-
+                #url = driver1.go_to_bet_from_positivebet_an_return_url(bet_element)
+                print('new')
                 driver1.get_all_info_from_positivebet_and_write_it_in_csv(Info)
 
 
