@@ -12,9 +12,6 @@ import time
 
 
 
-def get_url_with_cupon():
-    return 'url'
-
 def get_url_and_data_from_API(TOKEN, FILTER):
     data = {
         'accept': 'application/json',
@@ -114,7 +111,7 @@ while True:
         time.sleep(1)
 
         try:
-            url1, api_data = get_url_with_cupon()
+            url1, api_data = get_url_and_data_from_API()
         except Exception as er:
             print('Ошибка при отправке API запроса:', er)
             continue
