@@ -444,6 +444,10 @@ class FireFoxDriverWithProxy:
             value = bet365balance * value
             print('value2:', value)
 
+    def make_API_bet(self, url):
+        '''Делает ставку при помощи API
+            При переходе по ссылке купон автоматически открывается'''
+        pass
 
     def make_a_bet(self, value, coef, element):
         '''Ставит ставку в открывшемся окошечке
