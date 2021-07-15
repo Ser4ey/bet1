@@ -139,7 +139,7 @@ while True:
         except:
             pass
 
-        time.sleep(15)
+        time.sleep(30)
 
     Set_of_all_Bets = set()
 

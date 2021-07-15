@@ -450,7 +450,7 @@ class FireFoxDriverWithProxy:
             При переходе по которой купон автоматически открывается'''
         print(f'get url: {url}')
         self.driver.get(url)
-        time.sleep(2)
+        time.sleep(2.5)
 
         # проверка что купон открылся
         try:
@@ -500,6 +500,10 @@ class FireFoxDriverWithProxy:
             try:
                 self.driver.find_element_by_class_name('qbs-QuickBetHeader_DoneButton ').click()
                 print('Ставка проставлена!')
+                if self.type_of_account == '.com':
+                    self.driver.get('https://www.bet365.com/#/HO/')
+                else:
+                    self.driver.get('https://www.bet365.ru/#/HO/')
                 return 'Ставка проставлена!'
             except:
                 time.sleep(1)
