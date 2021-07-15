@@ -444,10 +444,72 @@ class FireFoxDriverWithProxy:
             value = bet365balance * value
             print('value2:', value)
 
-    def make_API_bet(self, url):
+    def make_API_bet(self, url, value):
         '''Делает ставку при помощи API
-            При переходе по ссылке купон автоматически открывается'''
-        pass
+            Получает ссылку
+            При переходе по которой купон автоматически открывается'''
+        self.driver.get(url)
+        time.sleep(1)
+
+        # проверка что купон открылся
+        try:
+            coef_now = self.driver.find_element_by_class_name('bsc-OddsDropdownLabel').text
+            coef_now = float(coef_now)
+        except:
+            print('[API] Купон не открылся')
+            if self.type_of_account == '.com':
+                self.driver.get('https://www.bet365.com/')
+            else:
+                self.driver.get('https://www.bet365.ru/#/HO/')
+            return
+
+        if str(value)[0] == '%':
+            value = value[1:]
+            value = float(value)
+            value = value / 100
+            try:
+                bet365balance = self.driver.find_element_by_class_name('hm-MainHeaderMembersWide_Balance').text
+                bet365balance = bet365balance.split(',')[0]
+                bet365balance = bet365balance.strip()
+                bet365balance = bet365balance.replace(' ', '')
+                bet365balance = float(bet365balance)
+                print(f'Баланс аккаунта {bet365balance}')
+            except:
+                bet365balance = 10
+                print(f'Баланс аккаунта {bet365balance}')
+
+            print(f'bet = {bet365balance} * {value}')
+            value = bet365balance * value
+            value = round(value, 2)
+            print('value:', value)
+
+        self.driver.find_element_by_class_name('qbs-NormalBetItem_DetailsContainer ') \
+            .find_element_by_class_name('qbs-StakeBox_StakeInput ').click()
+        time.sleep(0.3)
+        for simvol in str(value):
+            self.driver.find_element_by_tag_name("body").send_keys(simvol)
+            time.sleep(0.3)
+        time.sleep(0.5)
+        self.driver.find_element_by_class_name('qbs-BetPlacement ').click()
+
+        flag = False
+
+        for i in range(15):
+            try:
+                self.driver.find_element_by_class_name('qbs-QuickBetHeader_DoneButton ').click()
+                print('Ставка проставлена!')
+                return 'Ставка проставлена!'
+            except:
+                time.sleep(1)
+
+        print('[-] Не удалось поставить ставку')
+        self.driver.find_element_by_class_name('qbs-NormalBetItem_Indicator ').click()
+
+        if self.type_of_account == '.com':
+            self.driver.get('https://www.bet365.com/#/HO/')
+        else:
+            self.driver.get('https://www.bet365.ru/#/HO/')
+        time.sleep(2)
 
     def make_a_bet(self, value, coef, element):
         '''Ставит ставку в открывшемся окошечке
