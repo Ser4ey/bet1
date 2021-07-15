@@ -448,6 +448,7 @@ class FireFoxDriverWithProxy:
         '''Делает ставку при помощи API
             Получает ссылку
             При переходе по которой купон автоматически открывается'''
+        print(f'get url: {url}')
         self.driver.get(url)
         time.sleep(2)
 
