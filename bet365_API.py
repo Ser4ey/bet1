@@ -46,10 +46,9 @@ def get_url_with_cupon():
 
 def make_bet_multipotok(All_elements_array):
     print('Ставим ставку на одном из аккаунтов')
-    driver, url, bet, coef, bet_value, sport_type = All_elements_array
+    driver, url, bet_value = All_elements_array
     # driver.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=bet_value)
-    driver.start_make_bet_and_choose_sport_type(sport_type=sport_type, url=url, bet_type=bet,
-                                                coef=coef, bet_value=bet_value)
+    driver.make_API_bet_bet365(url=url, bet_type=bet, bet_value=bet_value)
 
 
 def make_notify_about_final_balance_telegram(driver, bot_token, user_id_list):
@@ -133,14 +132,15 @@ while True:
 
             A = []
             for i in range(len(data.Accounts)):
-                account_arr = [List_of_bet_account[i], url1, bet, coef, data.Accounts[i][5], sport_type]
+                account_arr = [List_of_bet_account[i], url, data.Accounts[i][5]]
                 A.append(account_arr)
 
             with Pool(processes=len(data.Accounts)) as p:
                 p.map(make_bet_multipotok, A)
+        except:
+            pass
 
-
-            time.sleep(15)
+        time.sleep(15)
 
 
 
