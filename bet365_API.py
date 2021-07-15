@@ -13,6 +13,7 @@ import time
 
 
 def get_url_and_data_from_API(TOKEN, FILTER):
+    print('Отправка API запроса', time.time())
     data = {
         'accept': 'application/json',
         "Content-Type": "application/x-www-form-urlencoded",
@@ -111,15 +112,18 @@ while True:
         time.sleep(1)
 
         try:
-            url1, api_data = get_url_and_data_from_API()
+            url1, api_data = get_url_and_data_from_API(TOKEN=data.API_TOKEN, FILTER=data.API_FILTER)
+            print(url1)
         except Exception as er:
             print('Ошибка при отправке API запроса:', er)
+            time.sleep(10)
             continue
 
         string_of_result = url1
 
         if string_of_result in Set_of_all_Bets:
-                    continue
+            time.sleep(10)
+            continue
 
         Set_of_all_Bets.add(string_of_result)
 
