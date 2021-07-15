@@ -454,7 +454,7 @@ class FireFoxDriverWithProxy:
         # проверка что купон открылся
         try:
             coef_now = self.driver.find_element_by_class_name('bsc-OddsDropdownLabel').text
-            coef_now = float(coef_now)
+            coef_now = str(coef_now)
         except:
             print('[API] Купон не открылся')
             if self.type_of_account == '.com':
