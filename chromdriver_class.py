@@ -276,17 +276,19 @@ class FireFoxDriverWithProxy:
 
         inicializqator = '0'
         try:
-            a = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].find_element_by_tag_name('b').text
-            if len(a) > 0:
-                inicializqator = 'Bet365'
-        except:
-            pass
-        try:
             a = Info[5].find_elements_by_tag_name('nobr')[line_with_other_bk].find_element_by_tag_name('b').text
             if len(a) > 0:
                 inicializqator = other_bk_name
         except:
             pass
+
+        try:
+            a = Info[5].find_elements_by_tag_name('nobr')[line_with_bet365].find_element_by_tag_name('b').text
+            if len(a) > 0:
+                inicializqator = 'Bet365'
+        except:
+            pass
+
         print(f'Q {inicializqator}')
 
         with open('vilki_logs.csv', 'a', encoding='utf-8') as f:
