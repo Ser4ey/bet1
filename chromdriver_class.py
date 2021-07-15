@@ -449,7 +449,7 @@ class FireFoxDriverWithProxy:
             Получает ссылку
             При переходе по которой купон автоматически открывается'''
         self.driver.get(url)
-        time.sleep(1)
+        time.sleep(1.5)
 
         # проверка что купон открылся
         try:
@@ -483,6 +483,7 @@ class FireFoxDriverWithProxy:
             value = round(value, 2)
             print('value:', value)
 
+        # ввод ставки в купон (посимвольно)
         self.driver.find_element_by_class_name('qbs-NormalBetItem_DetailsContainer ') \
             .find_element_by_class_name('qbs-StakeBox_StakeInput ').click()
         time.sleep(0.3)
@@ -494,7 +495,7 @@ class FireFoxDriverWithProxy:
 
         flag = False
 
-        for i in range(15):
+        for i in range(5):
             try:
                 self.driver.find_element_by_class_name('qbs-QuickBetHeader_DoneButton ').click()
                 print('Ставка проставлена!')
