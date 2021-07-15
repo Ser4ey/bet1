@@ -11,37 +11,29 @@ import json
 import time
 
 
-TOKEN = data.API_TOKEN
-FILTER = data.API_FILTER
-
-data = {
-    'accept': 'application/json',
-    "Content-Type": "application/x-www-form-urlencoded",
-    "search_filter": FILTER,
-    "access_token": TOKEN
-}
-
-
-r = requests.post('https://rest-api-lv.allbestbets.com/api/v1/valuebets/bot_pro_search', data=data)
-r = r.text
-# print(r)
-# exit()
-R = json.loads(r)
-# print(R)
-
-
-bets = R['bets']
-
-for bet in bets:
-    print(bet['id'], bet['is_value_bet'], bet)
-    bet_id = bet['id']
-    cupon_open_url = f'http://lv.oddsrabbit.org/bets/{bet_id}?locale=ru&access_token={TOKEN}&domain='
-    print(cupon_open_url)
-
 
 def get_url_with_cupon():
     return 'url'
 
+def get_url_and_data_from_API(TOKEN, FILTER):
+    data = {
+        'accept': 'application/json',
+        "Content-Type": "application/x-www-form-urlencoded",
+        "search_filter": FILTER,
+        "access_token": TOKEN
+    }
+
+    r = requests.post('https://rest-api-lv.allbestbets.com/api/v1/valuebets/bot_pro_search', data=data)
+    r_text = r.text
+
+    R = json.loads(r_text)
+    bets = R['bets']
+
+    for bet in bets:
+        print(bet['id'], bet['is_value_bet'], bet)
+        bet_id = bet['id']
+        cupon_open_url = f'http://lv.oddsrabbit.org/bets/{bet_id}?locale=ru&access_token={TOKEN}&domain='
+        print(cupon_open_url)
 
 
 
@@ -49,7 +41,7 @@ def make_bet_multipotok(All_elements_array):
     print('Ставим ставку на одном из аккаунтов')
     driver, url, bet_value = All_elements_array
     # driver.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=bet_value)
-    driver.make_API_bet_bet365(url=url, bet_type=bet, bet_value=bet_value)
+    driver.make_API_bet_bet365(url=url, bet_value=bet_value)
 
 
 def make_notify_about_final_balance_telegram(driver, bot_token, user_id_list):
@@ -115,20 +107,14 @@ while True:
     for j1 in range(80):
         time.sleep(1)
 
+        url1 = get_url_with_cupon()
 
-        url = get_url_with_cupon()
-
-
-
-        string_of_result = '$'
+        string_of_result = url1
 
         if string_of_result in Set_of_all_Bets:
                     continue
 
         Set_of_all_Bets.add(string_of_result)
-
-
-        url = get_url_with_cupon()
 
 
         # добавление статистики в .csv
@@ -137,7 +123,7 @@ while True:
 
             A = []
             for i in range(len(data.Accounts)):
-                account_arr = [List_of_bet_account[i], url, data.Accounts[i][5]]
+                account_arr = [List_of_bet_account[i], url1, data.Accounts[i][5]]
                 A.append(account_arr)
 
             with Pool(processes=len(data.Accounts)) as p:
