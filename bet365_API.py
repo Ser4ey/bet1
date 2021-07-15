@@ -45,7 +45,7 @@ def make_bet_multipotok(All_elements_array):
     print('Ставим ставку на одном из аккаунтов')
     driver, url, bet_value = All_elements_array
     # driver.make_cyber_football_bet(url=url, bet_type=bet, coef=coef, bet_value=bet_value)
-    driver.make_API_bet_bet365(url=url, bet_value=bet_value)
+    driver.make_API_bet_bet365(url=url, value=bet_value)
 
 
 def make_notify_about_final_balance_telegram(driver, bot_token, user_id_list):
