@@ -153,6 +153,7 @@ while True:
 
 
                 print(profit, bk, line, event, event_url, bet, coef, url, sport_type)
+
                 # добавление статистики в .csv
                 driver1.get_all_info_from_positivebet_and_write_it_in_csv(Info)
                 try:
