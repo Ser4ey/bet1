@@ -449,7 +449,7 @@ class FireFoxDriverWithProxy:
             Получает ссылку
             При переходе по которой купон автоматически открывается'''
         self.driver.get(url)
-        time.sleep(1.5)
+        time.sleep(2)
 
         # проверка что купон открылся
         try:

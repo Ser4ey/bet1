@@ -26,15 +26,21 @@ def get_url_and_data_from_API(TOKEN, FILTER):
     r = requests.post('https://rest-api-lv.allbestbets.com/api/v1/valuebets/bot_pro_search', data=data)
     r_text = r.text
 
+    # json -> python dict
     R = json.loads(r_text)
     bets = R['bets']
 
     for bet in bets:
-        print(bet['id'], bet['is_value_bet'], bet)
+        # print(bet['id'], bet['is_value_bet'], bet)
         bet_id = bet['id']
         cupon_open_url = f'http://lv.oddsrabbit.org/bets/{bet_id}?locale=ru&access_token={TOKEN}&domain='
-        print(cupon_open_url)
 
+        if bet['is_value_bet']:
+            return cupon_open_url, R
+        else:
+            continue
+
+    return ''
 
 
 def make_bet_multipotok(All_elements_array):
@@ -107,7 +113,11 @@ while True:
     for j1 in range(80):
         time.sleep(1)
 
-        url1 = get_url_with_cupon()
+        try:
+            url1, api_data = get_url_with_cupon()
+        except Exception as er:
+            print('Ошибка при отправке API запроса:', er)
+            continue
 
         string_of_result = url1
 
@@ -116,11 +126,8 @@ while True:
 
         Set_of_all_Bets.add(string_of_result)
 
-
-        # добавление статистики в .csv
         try:
             print('-'*100)
-
             A = []
             for i in range(len(data.Accounts)):
                 account_arr = [List_of_bet_account[i], url1, data.Accounts[i][5]]
@@ -133,8 +140,6 @@ while True:
 
         time.sleep(15)
 
-
-
     Set_of_all_Bets = set()
 
     # перезагрузка страницы (возможно из-за нёеблокируют аккаунт)
@@ -143,36 +148,6 @@ while True:
     now = datetime.datetime.now()
     now = now.strftime('%H:%M:%S')
     print(now)
-
-    #нажатие на кнопку автообновления, если oна не нажата
-    try:
-        auto_btn = driver1.driver.find_element_by_id('btnAutoRefresh')
-        if 'active' not in auto_btn.get_attribute('class').split():
-            auto_btn.click()
-            print('Нажимаем на кнопку автообновления ещё раз')
-    except:
-        pass
-
-    # перезагрузка страницы 2.0
-    reboot_counter += 1
-    if reboot_counter >= random.randint(3, 4) or error_flag:
-        print('Перезагрузка страницы//(браузера')
-        try:
-            driver1.close_session()
-        except:
-            pass
-
-        time.sleep(2)
-        driver1 = ChromeCloudFlareProtection()
-        time.sleep(3)
-
-        driver1.driver.get('https://positivebet.com/ru/bets/index')
-        time.sleep(5)
-        driver1.driver.find_element_by_id('btnAutoRefresh').click()
-        time.sleep(1)
-
-        reboot_counter = 0
-        error_flag = False
 
     # реанимация .com аккаунтов
     with Pool(processes=len(data.Accounts)) as p:
@@ -199,4 +174,3 @@ while True:
 
 
 #cupon = 'http://lv.oddsrabbit.org/bets/NDc3NTQxOTk2fDE4LC01LjUsNCwwLDAsMA?locale=ru&access_token=f5a0a4fda9a612f09f86d9230a2c4cc2&domain='
-
