@@ -44,6 +44,7 @@ def get_url_with_cupon():
 
 
 
+
 def make_bet_multipotok(All_elements_array):
     print('Ставим ставку на одном из аккаунтов')
     driver, url, bet_value = All_elements_array
@@ -111,8 +112,13 @@ graphic_bet_telegram_counter = 0
 error_flag = False
 
 while True:
-    for j1 in range(180):
+    for j1 in range(80):
         time.sleep(1)
+
+
+        url = get_url_with_cupon()
+
+
 
         string_of_result = '$'
 
@@ -121,9 +127,8 @@ while True:
 
         Set_of_all_Bets.add(string_of_result)
 
-        # print(profit, bk, line, event, event_url, bet, coef)
-        url = get_url_with_cupon()
 
+        url = get_url_with_cupon()
 
 
         # добавление статистики в .csv
