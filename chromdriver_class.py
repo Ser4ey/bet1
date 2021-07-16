@@ -1490,6 +1490,7 @@ class FireFoxDriverWithProxy:
             # hm-Balance
             bet365balance = bet365balance.split(',')[0]
             bet365balance = bet365balance.strip()
+            bet365balance = bet365balance.strip('£')
             bet365balance = bet365balance.replace(' ', '')
             bet365balance = float(bet365balance)
             self.current_account_balance = bet365balance
