@@ -127,7 +127,7 @@ while True:
         string_of_result = url1
 
         if string_of_result in Set_of_all_Bets:
-            time.sleep(10)
+            time.sleep(25)
             continue
 
         Set_of_all_Bets.add(string_of_result)
