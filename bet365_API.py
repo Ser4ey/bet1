@@ -163,8 +163,10 @@ while True:
 
     # отправка уведомлений о достижении контрольного баланса
     for account_ in List_of_bet_account:
-        make_notify_about_final_balance_telegram(driver=account_, bot_token=data.BOT_TOKEN, user_id_list=data.Telegram_admins)
-
+        try:
+            make_notify_about_final_balance_telegram(driver=account_, bot_token=data.BOT_TOKEN, user_id_list=data.Telegram_admins)
+        except:
+            print('Не удалось отправить уведомление об изменении баланса')
         #Окошко порезки аккаунта
         #general-account-restrictions
 
@@ -173,7 +175,10 @@ while True:
     #раз в 5 мин
     if graphic_bet_telegram_counter > 0:
         try:
-            graphic_bet_telegram.send_actual_grafic()
+            try:
+                graphic_bet_telegram.send_actual_grafic()
+            except:
+                print('Не удалось отправить актуальный график')
         except:
             pass
 
