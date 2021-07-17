@@ -1,58 +1,28 @@
-bet_type = 'Команда 2 Тб(534)'
-reverse_bet = 'Unknown bet'
-
-if bet_type == 'П1' or bet_type == '1':
-    #  1 -> X2
-    reverse_bet = 'X2'
-
-elif bet_type == '2' or bet_type == 'П2':
-    #  2 -> 1X
-    reverse_bet = '1X'
-
-elif bet_type == 'X' or bet_type == 'Х':
-    #  X -> 12
-    reverse_bet = '12'
-
-elif bet_type == '1X' or bet_type == '1Х':
-    #  1X -> 2
-    reverse_bet = '2'
-
-elif bet_type == 'Х2' or bet_type == 'X2':
-    #  X2 -> 1
-    reverse_bet = '1'
-
-elif bet_type == '12' or bet_type == '21':
-    #  12 -> X
-    reverse_bet = 'X'
-
-elif bet_type[:13] == 'Гола не будет':
-    #  Гола не будет(3) -> Тм(2.5)
-    reverse_bet = bet_type.split('(')[-1]
-    reverse_bet = reverse_bet.strip(')')
-    reverse_bet = int(reverse_bet) + 0.5
-    reverse_bet = str(reverse_bet)
-    reverse_bet = f'Тм({reverse_bet})'
-
-elif bet_type == 'Чет':
-    #  Чет -> Нечет
-    reverse_bet = 'Нечет'
-
-elif bet_type == 'Нечет':
-    #  Чет -> Нечет
-    reverse_bet = 'Чет'
-
-else:
-    if 'Команда' in bet_type:
-        if 'Тб' in bet_type:
-            reverse_bet = bet_type.replace('Тб', 'Тм')
-        elif 'Тм' in bet_type:
-            reverse_bet = bet_type.replace('Тм', 'Тб')
-
-    elif 'Тб' in bet_type:
-        reverse_bet = bet_type.replace('Тб', 'Тм')
-
-    elif 'Тм' in bet_type:
-        reverse_bet = bet_type.replace('Тм', 'Тб')
+from chromdriver_class import FireFoxDriverWithProxy, ChromeCloudFlareProtection, FireFoxDriverWithVPN
+import time
+import data
+import datetime
+import telegram_api
+from multiprocessing.dummy import Pool
+import random
+from graphic_telegram import Grafic_Bet365_Telegram
+import requests
+import json
+import time
 
 
-print(reverse_bet)
+
+i1 = 1
+for i in range(len(data.Accounts)):
+    print(f'Запуск аккаунта {i1}')
+    i1+=1
+
+    # запуск аккаунта с VPN
+    if data.Accounts[i][2] == 'VPN':
+        driver2 = FireFoxDriverWithVPN(path_to_geckodriver=data.path_to_geckodriver, user_agent=data.Accounts[i][0],
+                                 proxy=data.Accounts[i][1], proxy_login_and_password=data.Accounts[i][2], type_of_account=data.Accounts[i][6], final_balance=data.Accounts[i][7], account_code_name=data.Accounts[i][8], is_reversed=data.Accounts[i][9])
+    else:
+        driver2 = FireFoxDriverWithProxy(path_to_geckodriver=data.path_to_geckodriver, user_agent=data.Accounts[i][0],
+                                 proxy=data.Accounts[i][1], proxy_login_and_password=data.Accounts[i][2], type_of_account=data.Accounts[i][6], final_balance=data.Accounts[i][7], account_code_name=data.Accounts[i][8], is_reversed=data.Accounts[i][9])
+
+    driver2.log_in_bet365(data.Accounts[i][3], data.Accounts[i][4], data.Accounts[i][6])
