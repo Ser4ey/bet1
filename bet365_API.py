@@ -70,9 +70,14 @@ def make_notify_about_final_balance_telegram(driver, bot_token, user_id_list):
     if current_balance > float(driver.final_balance):
 
         for user_id in user_id_list:
-            telegram_api.telegram_bot_send_message(bot_token=bot_token, chat_id=user_id, text='-'*32)
-            telegram_api.telegram_bot_send_message(bot_token=bot_token, chat_id=user_id, text=text)
-
+            try:
+                telegram_api.telegram_bot_send_message(bot_token=bot_token, chat_id=user_id, text='-'*32)
+            except:
+                pass
+            try:
+                telegram_api.telegram_bot_send_message(bot_token=bot_token, chat_id=user_id, text=text)
+            except:
+                pass
 
 def reanimate_bet365com(driver):
     if driver.is_VPN:
