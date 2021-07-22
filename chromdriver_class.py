@@ -1512,8 +1512,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
         firefox_capabilities['marionette'] = True
 
         # путь к firefox аккаунту !!!
-        fp = webdriver.FirefoxProfile(
-            r'C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\wxjvqcon.default-release-1')
+        fp = webdriver.FirefoxProfile(data.firefox_profile_path)
 
         options = webdriver.FirefoxOptions()
         options.set_preference("dom.webdriver.enabled", False)
@@ -1570,8 +1569,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
             firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
             firefox_capabilities['marionette'] = True
 
-            fp = webdriver.FirefoxProfile(
-                r'C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\wxjvqcon.default-release-1')
+            fp = webdriver.FirefoxProfile(data.firefox_profile_path)
 
             options = webdriver.FirefoxOptions()
             options.set_preference("dom.webdriver.enabled", False)
@@ -1609,8 +1607,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                     firefox_capabilities = webdriver.DesiredCapabilities.FIREFOX
                     firefox_capabilities['marionette'] = True
 
-                    fp = webdriver.FirefoxProfile(
-                         r'C:\Users\Administrator\AppData\Roaming\Mozilla\Firefox\Profiles\wxjvqcon.default-release-1')
+                    fp = webdriver.FirefoxProfile(data.firefox_profile_path)
 
                     options = webdriver.FirefoxOptions()
                     options.set_preference("dom.webdriver.enabled", False)
