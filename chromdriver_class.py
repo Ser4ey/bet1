@@ -1518,7 +1518,7 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
         options = webdriver.FirefoxOptions()
         options.set_preference("dom.webdriver.enabled", False)
         options.set_preference("dom.webnotifications.enabled", False)
-        binary = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+        binary = data.firefox_binary
         options.binary = binary
 
         # user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
@@ -1576,15 +1576,15 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
             options = webdriver.FirefoxOptions()
             options.set_preference("dom.webdriver.enabled", False)
             options.set_preference("dom.webnotifications.enabled", False)
-            binary = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+            binary = data.firefox_binary
             options.binary = binary
 
-            user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
-            options.set_preference("general.useragent.override", user_agent)
+            # user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:86.0) Gecko/20100101 Firefox/86.0'
+            # options.set_preference("general.useragent.override", user_agent)
             #
             self.driver = webdriver.Firefox(capabilities=firefox_capabilities, firefox_profile=fp,
-                            firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe',
-                            executable_path=r'C:\Users\Administrator\PycharmProjects\bet1\geckodriver.exe',
+                            firefox_binary=data.firefox_binary,
+                            executable_path=data.path_to_geckodriver,
                             options=options)
             time.sleep(2)
 
@@ -1615,12 +1615,12 @@ class FireFoxDriverWithVPN(FireFoxDriverWithProxy):
                     options = webdriver.FirefoxOptions()
                     options.set_preference("dom.webdriver.enabled", False)
                     options.set_preference("dom.webnotifications.enabled", False)
-                    binary = r'C:\Program Files\Mozilla Firefox\firefox.exe'
+                    binary = data.firefox_binary
                     options.binary = binary
 
                     self.driver = webdriver.Firefox(capabilities=firefox_capabilities, firefox_profile=fp,
-                                                     firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe',
-                                                     executable_path=r'C:\Users\Administrator\PycharmProjects\bet1\geckodriver.exe',
+                                                     firefox_binary=data.firefox_binary,
+                                                     executable_path=data.path_to_geckodriver,
                                                      options=options)
                     time.sleep(2)
 
@@ -1788,8 +1788,6 @@ class ChromeCloudFlareProtection(FireFoxDriverWithProxy):
         except Exception as er:
             close_chrome()
             return f'no_url :(v{er}'
-
-
 
 
     def restart_driver(self):
