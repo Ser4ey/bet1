@@ -108,7 +108,7 @@ class Grafic_Bet365_Telegram:
 
         A = [0]
         for i in range(len(y_list)):
-            if y_list[i] == 'Проигрыш':
+            if y_list[i] == 'Проигрыш' or y_list[i] == 'Lost':
                 A.append(A[i] - 1)
             else:
                 A.append(A[i] + 1)
